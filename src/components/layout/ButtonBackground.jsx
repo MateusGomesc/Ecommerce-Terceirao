@@ -4,7 +4,7 @@ import User from '../../img/User.png'
 
 const Button = styled.button`
     border-radius: 16px;
-    background: var(--gradient-dark);
+    background: var(--gradient);
     color: var(--bg-primary);
     width: auto;
     height: 28px;

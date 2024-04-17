@@ -3,9 +3,9 @@
 :root{
     --bg-primary: #fff;
     --bg-secondary: #efefef;
+    --bg-grey: rgba(0, 0, 0, 0.05);
     --shadow: rgba(0, 0, 0, 0.15);
-    --gradient-dark: linear-gradient(to right, #4E036A, #EF13D7);
-    --gradient-light: rgba(137, 11, 123, 1);
+    --gradient: linear-gradient(to right, #4E036A, #EF13D7);
     --success: #03AC00;
     --error: #F30000;
 }
