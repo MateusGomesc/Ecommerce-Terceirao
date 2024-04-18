@@ -16,10 +16,11 @@ const Container = styled.div`
     border-radius: 8px;
     padding: 12px 10px 24px 10px;
     gap: 8px;
+    height: 100%;
 
     @media(min-width: 1024px){
         & {
-            gap: 24px;
+            gap: 60px;
             padding: 40px 10px 40px 10px;
         }
     }
@@ -45,8 +46,15 @@ const ButtonContainer = styled.div`
 `
 
 const Image = styled.img`
-    height: 142px;
-    width: 142px;
+    height: 48%;
+    width: 48%;
+
+    @media(min-width: 1024px){
+        &{
+            height: 256px;
+            width: 256px;
+        }
+    }
 `
 
 const InputContainer = styled.div`

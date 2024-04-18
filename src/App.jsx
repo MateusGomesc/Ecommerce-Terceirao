@@ -6,6 +6,7 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer';
 import Login from './components/pages/Login'
 import Terms from './components/pages/Terms'
+import Home from './components/pages/Home'
 import { ContainerDefault } from './components/layout/ContainerDefault.style';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Routes>
             <Route exact path='/' element={<Login/>}></Route>
             <Route exact path='/termos' element={<Terms/>}></Route>
+            <Route exact path='/eventos' element={<Home/>}></Route>
           </Routes>
         </ContainerDefault>
         <Footer />

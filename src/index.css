@@ -19,5 +19,6 @@
 
 html, body, #root{
     background-color: var(--bg-primary);
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
