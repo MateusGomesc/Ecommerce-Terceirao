@@ -4,6 +4,7 @@ import LogoWithText from "../../img/logoWithText.svg"
 import ButtonBackground from "../layout/ButtonBackground"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import Input from "../forms/Input"
+import { Form } from "../forms/Form.style"
 
 const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
@@ -62,6 +63,7 @@ const InputContainer = styled.div`
     flex-direction: column;
     gap: 8px;
     width: 100%;
+    height: 100%;
     margin-bottom: 18px;
 `
 
@@ -70,26 +72,32 @@ export default function Login(){
         <>
             <Container>
                 <Image src={LogoWithText} alt="" />
-                <ContainerRight>
-                    <InputContainer>
-                        <Input 
-                            type='email'
-                            name='email'
-                            placeholder='Digite seu email'
-                            label='Email'
-                        />
-                        <Input 
-                            type='password'
-                            name='password'
-                            placeholder='Digite sua senha'
-                            label='Senha'
-                        />
-                    </InputContainer>
-                    <ButtonContainer>
-                        <ButtonBackground text='Entrar' />
-                        <ButtonNoBackground text='Registrar-se' />
-                    </ButtonContainer>
-                </ContainerRight>
+                <Form>
+                    <ContainerRight>
+                        <InputContainer>
+                            <Input 
+                                type='email'
+                                name='email'
+                                placeholder='Digite seu email'
+                                label='Email'
+                            />
+                            <Input 
+                                type='password'
+                                name='password'
+                                placeholder='Digite sua senha'
+                                label='Senha'
+                            />
+                        </InputContainer>
+                        <ButtonContainer>
+                            <ButtonBackground text='Entrar' type='submit'/>
+                            <ButtonNoBackground 
+                                text='Registrar-se' 
+                                path='/registrar'
+                                type='button'
+                            />
+                        </ButtonContainer>
+                    </ContainerRight>
+                </Form>
             </Container>
         </>
     )

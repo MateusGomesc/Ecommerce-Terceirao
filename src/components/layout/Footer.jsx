@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
 
 import LogoWithText from "../../img/logoWithText.svg"
-import { Title } from "./TextGradient.style"
+import { Title } from "./Title.style"
 
 
 const FooterContainer = styled.footer`

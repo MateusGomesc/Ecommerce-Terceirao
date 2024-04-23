@@ -15,8 +15,8 @@ const Button = styled.button`
     padding: 4px 16px 4px 16px;
 `
 
-export default function ButtonBackground({ text }){
+export default function ButtonBackground({ text, type }){
     return(
-        <Button>{text === 'User' ? ( <img src={User}/> ) : text}</Button>
+        <Button type={type}>{text === 'User' ? ( <img src={User}/> ) : text}</Button>
     )
 }

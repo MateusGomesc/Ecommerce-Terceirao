@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Title } from "../layout/TextGradient.style"
+import { Title } from "../layout/Title.style"
 import EventCard from "../layout/EventCard"
 
 const Text = styled.p`

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
-import { Title } from './TextGradient.style'
+import { Title } from './Title.style'
+import { useNavigate } from 'react-router-dom'
 
 
 const Button = styled.button`
@@ -18,8 +19,17 @@ const Button = styled.button`
     padding: 4px 16px 4px 16px;
 `
 
-export default function ButtonNoBackground({ text }){
+export default function ButtonNoBackground({ text, path, type }){
+
+    const navigate = useNavigate()
+    const handleClick = () => navigate(path)
+
     return(
-        <Button><Title fontSize={10}>{text}</Title></Button>
+        <Button 
+            onClick={handleClick}
+            type={type}
+        >
+            <Title fontSize={10}>{text}</Title>
+        </Button>
     )
 }

@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { useState } from "react"
 
 const InputContainer = styled.div`
     display: flex;
@@ -19,8 +20,26 @@ const InputBox = styled.input`
     outline: none;
 `
 
+const Checkbox = styled.input`
+    cursor: pointer;
+
+    &::after{
+        background-color: var(--bg-primary);
+    }
+`
+
+const CheckboxContainer = styled.div`
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+`
+
 
 export default function Input({ label, placeholder, type, handleOnChange, value, name }){
+    const [typeInput, setypeInput] = useState(type)
+
+    const handleClick = () => typeInput === 'password' ? setypeInput('text') : setypeInput('password')
+
     return(
         <InputContainer>
             <Label htmlFor={name}>{label}:</Label>
@@ -29,10 +48,18 @@ export default function Input({ label, placeholder, type, handleOnChange, value,
                 id={name}
                 name={name}
                 value={value}
-                type={type}
+                type={typeInput}
                 onChange={handleOnChange}
                 required
             />
+            {
+                type === 'password' && (
+                    <CheckboxContainer>
+                        <Checkbox type='checkbox' id='showPassword' onClick={handleClick}/>
+                        <Label htmlFor='showPassword'>Mostrar senha</Label>
+                    </CheckboxContainer>
+                )
+            }
         </InputContainer>
     )
 }

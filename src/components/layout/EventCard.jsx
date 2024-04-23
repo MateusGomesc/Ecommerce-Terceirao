@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import Personagens from '../../img/personagens.svg'
-import { Title } from "./TextGradient.style"
+import { Title } from "./Title.style"
 import ButtonNoBackground from "./ButtonNoBackground"
 
 const CardContainer = styled.div`
@@ -58,7 +58,7 @@ export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
                     )
                 }
                 <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
-                <Ancora href="#"><Text>{EventName}</Text></Ancora>
+                <Ancora href="/comprar"><Text>{EventName}</Text></Ancora>
                 {
                     IsAdmin && (
                         <ButtonContainer>
