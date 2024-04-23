@@ -72,7 +72,7 @@ export default function Login(){
         <>
             <Container>
                 <Image src={LogoWithText} alt="" />
-                <Form>
+                <Form action="">
                     <ContainerRight>
                         <InputContainer>
                             <Input 

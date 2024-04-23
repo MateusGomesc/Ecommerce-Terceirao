@@ -4,15 +4,8 @@ import Input from "../forms/Input";
 import ButtonBackground from "../layout/ButtonBackground";
 import { Title } from "../layout/Title.style";
 import { Form } from "../forms/Form.style";
+import { InputContainer } from "../forms/FormContainer.style";
 
-const InputContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    width: 100%;
-    margin-top: 25px;
-    gap: 25px;
-`
 
 export default function Register(){
     return(
@@ -51,6 +44,7 @@ export default function Register(){
                     />
                     <ButtonBackground 
                         text='Cadastrar'
+                        type='submit'
                     />
                 </InputContainer>
             </Form>
