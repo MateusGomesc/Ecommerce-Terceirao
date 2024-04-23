@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import { useState } from "react"
+
 import Personagens from '../../img/personagens.svg'
 import { Title } from "./Title.style"
 import ButtonNoBackground from "./ButtonNoBackground"
@@ -48,13 +50,17 @@ const ButtonContainer = styled.div`
 
 
 export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
+    const [Open, setOpen] = useState(IsOpen)
+
+    const changeStatus = () => Open ? setOpen(false) : setOpen(true)
+
     return(
         <CardContainer>
-            <Image src={Personagens} alt="Banner do trote de personagens" />
+            <Image src={Personagens} alt={`Banner ${EventName}`} />
             <CardBody>
                 {
                     IsAdmin && (
-                        <SubTitle color={IsOpen ? 'var(--success)' : 'var(--error)'}>Evento {IsOpen ? 'aberto' : 'fechado'}</SubTitle>
+                        <SubTitle color={Open ? 'var(--success)' : 'var(--error)'}>Evento {Open ? 'aberto' : 'fechado'}</SubTitle>
                     )
                 }
                 <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
@@ -62,7 +68,7 @@ export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
                 {
                     IsAdmin && (
                         <ButtonContainer>
-                            <ButtonNoBackground text={IsOpen ? 'Fechar' : 'Abrir'}/>
+                            <ButtonNoBackground text={Open ? 'Fechar' : 'Abrir'} handleClick={changeStatus}/>
                             <ButtonNoBackground text='Editar'/>
                         </ButtonContainer>
                     )

@@ -19,10 +19,7 @@ const Button = styled.button`
     padding: 4px 16px 4px 16px;
 `
 
-export default function ButtonNoBackground({ text, path, type }){
-
-    const navigate = useNavigate()
-    const handleClick = () => navigate(path)
+export default function ButtonNoBackground({ text, type, handleClick }){
 
     return(
         <Button 

@@ -5,6 +5,7 @@ import ButtonBackground from "../layout/ButtonBackground"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import Input from "../forms/Input"
 import { Form } from "../forms/Form.style"
+import { useNavigate } from "react-router-dom"
 
 const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
@@ -68,6 +69,10 @@ const InputContainer = styled.div`
 `
 
 export default function Login(){
+
+    const navigate = useNavigate()
+    const handleClick = () => navigate('/registrar')
+
     return(
         <>
             <Container>
@@ -92,7 +97,7 @@ export default function Login(){
                             <ButtonBackground text='Entrar' type='submit'/>
                             <ButtonNoBackground 
                                 text='Registrar-se' 
-                                path='/registrar'
+                                handleClick={handleClick}
                                 type='button'
                             />
                         </ButtonContainer>
