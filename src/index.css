@@ -6,6 +6,7 @@
     --bg-grey: rgba(0, 0, 0, 0.05);
     --shadow: rgba(0, 0, 0, 0.15);
     --gradient: linear-gradient(to right, #4E036A, #EF13D7);
+    --purple-dark: #4E036A;
     --success: #03AC00;
     --error: #F30000;
 }

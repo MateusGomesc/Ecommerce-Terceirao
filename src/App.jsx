@@ -11,6 +11,7 @@ import { ContainerDefault } from './components/layout/ContainerDefault.style';
 import Register from './components/pages/Register';
 import ChangeUserInformation from './components/pages/ChangeUserInformation';
 import AdminEvents from './components/pages/AdminEvents';
+import AdminEventShops from './components/pages/AdminEventShops';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route exact path='/registrar' element={<Register/>}></Route>
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={<AdminEvents/>}></Route>
+            <Route exact path='/compras' element={<AdminEventShops/>}></Route>
           </Routes>
         </ContainerDefault>
         <Footer />
