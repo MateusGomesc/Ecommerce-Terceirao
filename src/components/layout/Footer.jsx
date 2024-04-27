@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import LogoWithText from "../../img/logoWithText.svg"
 import { Title } from "./Title.style"
@@ -22,19 +22,17 @@ const FooterContainer = styled.footer`
     }
 `
 
-const Ancora = styled.a`
-    text-decoration: none;
-    color: inherit;
-`
-
-const Text = styled.p`
+const LinkStyle = styled(Link)`
     font-size: 10px;
     font-weight: light;
+    text-decoration: none;
+    color: inherit;
 
     &:hover{
         text-decoration: underline;
     }
 `
+
 const Navigator = styled.nav`
     display: flex;
     gap: 48px;
@@ -43,22 +41,17 @@ const Navigator = styled.nav`
 
 
 export default function Footer(){
-
-    // Navegação para Termos de uso
-    const navigate = useNavigate()
-    const handleClick = () => navigate('/termos')
-
     return(
         <FooterContainer>
-            <Ancora href="/"><img src={LogoWithText} alt="Logo terceirão" /></Ancora>
+            <Link to="/"><img src={LogoWithText} alt="Logo terceirão" /></Link>
             <Navigator>
                 <section>
                     <Title fontSize={12} fontWeight='bold'>Dúvidas</Title>
-                    <Ancora onClick={handleClick}><Text>Termos de uso</Text></Ancora>
+                    <LinkStyle to='/termos'>Termos de uso</LinkStyle>
                 </section>
                 <section>
                     <Title fontSize={12} fontWeight='bold'>Fale conosco</Title>
-                    <Ancora href="https://www.instagram.com/3inf_iftm"><Text>@3inf_iftm</Text></Ancora>
+                    <LinkStyle to="https://www.instagram.com/3inf_iftm">@3inf_iftm</LinkStyle>
                 </section>
             </Navigator>
         </FooterContainer>

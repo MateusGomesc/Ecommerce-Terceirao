@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 import Personagens from '../../img/personagens.svg'
 import { Title } from "./Title.style"
@@ -30,10 +31,10 @@ const Text = styled.h2`
     }
 `
 
-const Ancora = styled.a`
-    text-decoration: none;
-    color: inherit;
-`
+const LinkStyle = {
+    textDecoration: "none",
+    color: "inherit"
+}
 
 const SubTitle = styled.p`
     color: ${(props) => props.color};
@@ -64,7 +65,14 @@ export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
                     )
                 }
                 <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
-                <Ancora href="/comprar"><Text>{EventName}</Text></Ancora>
+                <Link 
+                    to={ IsAdmin ? '/compras' : '/comprar'}
+                    style={LinkStyle}
+                >
+                    <Text>
+                        {EventName}
+                    </Text>
+                </Link>
                 {
                     IsAdmin && (
                         <ButtonContainer>

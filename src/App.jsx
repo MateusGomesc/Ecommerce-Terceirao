@@ -12,6 +12,7 @@ import Register from './components/pages/Register';
 import ChangeUserInformation from './components/pages/ChangeUserInformation';
 import AdminEvents from './components/pages/AdminEvents';
 import AdminEventShops from './components/pages/AdminEventShops';
+import AdminShop from './components/pages/AdminShop';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={<AdminEvents/>}></Route>
             <Route exact path='/compras' element={<AdminEventShops/>}></Route>
+            <Route exact path='/detalhes' element={<AdminShop/>}></Route>
           </Routes>
         </ContainerDefault>
         <Footer />

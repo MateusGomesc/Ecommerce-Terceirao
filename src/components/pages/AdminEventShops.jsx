@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
-import Table from '../layout/Table'
+import Table from '../layout/TableTwoColumns'
 
 const Image = styled.img`
     width: calc(100% + 64px);
@@ -17,11 +18,11 @@ const Image = styled.img`
     }
 `
 
-const Ancora = styled.a`
-    text-decoration: none;
-    text-decoration: underline;
-    cursor: pointer;
-`
+const LinkStyle = {
+    textDecoration: "underline",
+    cursor: "pointer",
+    color: "inherit"
+}
 
 export default function AdminEventShops(){
     return(
@@ -32,10 +33,12 @@ export default function AdminEventShops(){
             <Table
                 head={['Comprador', 'Detalhes']}
                 data={[
-                    ['Mateus Gomes Costa', (<Ancora>Detalhes</Ancora>)],
-                    ['João da Silva', (<Ancora>Detalhes</Ancora>)]
+                    ['Mateus Gomes Costa', (<Link to='/detalhes' style={LinkStyle}>Detalhes</Link>)],
+                    ['João da Silva', (<Link to='/detalhes' style={LinkStyle}>Detalhes</Link>)]
                 ]}
             />
         </>
     )
 }
+
+/*Trocar Ancoras por links do react */

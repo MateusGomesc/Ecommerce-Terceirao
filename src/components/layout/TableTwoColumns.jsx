@@ -25,7 +25,7 @@ const TableContainer = styled.table`
     }
 `
 
-export default function Table({ head, data }){
+export default function TableTwoColumns({ head, data }){
     return(
         <TableContainer>
             <thead>

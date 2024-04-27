@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import ButtonBackground from './ButtonBackground'
 
 import logoNoText from '../../img/logoNoText.svg'
+import { Link } from 'react-router-dom'
 
 
 const HeaderContainer = styled.header`
@@ -21,14 +22,14 @@ const HeaderContainer = styled.header`
         }
     }
 `
-const Ancora = styled.a`
-    text-decoration: none;
-`
+const LinkStyle = {
+    textDecoration: "none"
+}
 
 export default function Header(){
     return(
         <HeaderContainer>
-            <Ancora href="/"><img src={logoNoText} alt="Logo Terceirão" /></Ancora>
+            <Link to="/" style={LinkStyle}><img src={logoNoText} alt="Logo Terceirão" /></Link>
             <ButtonBackground
                 text='User'
             />
