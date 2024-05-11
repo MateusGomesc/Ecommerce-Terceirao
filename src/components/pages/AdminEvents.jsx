@@ -32,7 +32,7 @@ export default function AdminEvents(){
             <ButtonContainer>
                 <ButtonNoBackground 
                     text='Cadastrar'
-                    path='/adminRegistarEvento'
+                    path='/formulario/cadastrar'
                     type='button'
                 />
             </ButtonContainer>

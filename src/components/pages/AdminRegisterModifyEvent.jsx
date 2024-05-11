@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 import { Form } from "../forms/Form.style";
 import Input from "../forms/Input";
@@ -31,6 +32,7 @@ const Text = styled.p`
 
 export default function AdminRegisterEvent(){
     const [productsNumber, setProductsNumber] = useState(0)
+    const { type } = useParams()
 
     return(
         <>
@@ -38,7 +40,7 @@ export default function AdminRegisterEvent(){
                 fontWeight='bold'
                 fontSize={24}
             >
-                Cadastro de eventos:
+                {type === 'cadastrar' ? 'Cadastro' : 'Modificação'} de eventos:
             </Title>
             <Form>
                 <InputArea>
@@ -88,7 +90,7 @@ export default function AdminRegisterEvent(){
                     options={['Aberto', 'Fechado']}
                 />
                 <ButtonBackground 
-                    text='Cadastar'
+                    text={type === 'cadastrar' ? 'Cadastrar' : 'Salvar'}
                     type='Submit'
                 />
             </Form>

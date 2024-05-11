@@ -17,6 +17,8 @@ const Button = styled.button`
 
 export default function ButtonBackground({ text, type }){
     return(
-        <Button type={type}>{text === 'User' ? ( <img src={User}/> ) : text}</Button>
+        <Button type={type}>
+            {text === 'User' ? ( <img src={User}/> ) : text}
+        </Button>
     )
 }

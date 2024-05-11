@@ -3,20 +3,9 @@ import { Link } from 'react-router-dom'
 
 import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
-import Table from '../layout/TableTwoColumns'
+import Table from '../layout/Table'
+import { Banner } from '../layout/Banner.style'
 
-const Image = styled.img`
-    width: calc(100% + 64px);
-    border-radius: 0 0 8px 8px;
-    margin-top: -40px;
-    margin-bottom: 13px;
-
-    @media(min-width: 1024px){
-        & {
-            display: none;
-        }
-    }
-`
 
 const LinkStyle = {
     textDecoration: "underline",
@@ -27,7 +16,7 @@ const LinkStyle = {
 export default function AdminEventShops(){
     return(
         <>
-            <Image src={Personagens} alt='Banner Trote de personagens'/>
+            <Banner src={Personagens} alt='Banner Trote de personagens'/>
             <Title fontSize={24}>Trote de personagens</Title>
             <Title fontSize={20} fontWeight='bold'>Compras realizadas:</Title>
             <Table

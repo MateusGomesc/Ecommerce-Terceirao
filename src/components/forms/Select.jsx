@@ -18,6 +18,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin: 25px 0;
+    width: 100%;
 `
 
 const Label = styled.label`
@@ -28,8 +29,8 @@ const Label = styled.label`
 export default function Select({ name, label, options }){
     return(
         <Container>
-            <Label>{label}:</Label>
-            <SelectContainer name={name}>
+            <Label htmlFor={name}>{label}:</Label>
+            <SelectContainer name={name} id={name} required>
                 {
                     options.map((item) => <option value={item}>{item}</option>)
                 }

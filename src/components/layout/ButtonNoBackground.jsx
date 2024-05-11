@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { Title } from './Title.style'
-import { useNavigate } from 'react-router-dom'
+
 
 
 const Button = styled.button`
@@ -15,18 +16,21 @@ const Button = styled.button`
     height: 28px;
     cursor: pointer;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: ${props => props.fontSize ? props.fontSize : 12}px;
     padding: 4px 16px 4px 16px;
+    text-decoration: none;
 `
 
-export default function ButtonNoBackground({ text, type, handleClick }){
+export default function ButtonNoBackground({ text, type, handleClick, path }){
 
     return(
         <Button 
             onClick={handleClick}
             type={type}
         >
-            <Title fontSize={10}>{text}</Title>
+            {
+                path ? (<Link to={path}><Title fontSize='inherit'>{text}</Title></Link>) : (<Title fontSize='inherit'>{text}</Title>)
+            }
         </Button>
     )
 }

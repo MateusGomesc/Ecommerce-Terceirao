@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import TableTwoColumns from "../layout/TableTwoColumns";
+import Table from "../layout/Table";
 import { Title } from "../layout/Title.style";
 import Comprovante from '../../img/comprovante-exemplo.jpg'
 
@@ -26,7 +26,7 @@ export default function AdminShop(){
             >
                 Mateus Gomes Costa
             </Title>
-            <TableTwoColumns 
+            <Table 
                 head={['Produto', 'Quantidade']}
                 data={[
                     ['Brigadeiro', 2],

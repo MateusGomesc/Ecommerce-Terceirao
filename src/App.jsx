@@ -13,7 +13,8 @@ import ChangeUserInformation from './components/pages/ChangeUserInformation';
 import AdminEvents from './components/pages/AdminEvents';
 import AdminEventShops from './components/pages/AdminEventShops';
 import AdminShop from './components/pages/AdminShop';
-import AdminRegisterEvent from './components/pages/AdminRegisterEvent';
+import AdminRegisterEvent from './components/pages/AdminRegisterModifyEvent';
+import EventShop from './components/pages/EventShop';
 
 export default function App() {
   return (
@@ -30,7 +31,8 @@ export default function App() {
             <Route exact path='/admin' element={<AdminEvents/>}></Route>
             <Route exact path='/compras' element={<AdminEventShops/>}></Route>
             <Route exact path='/detalhes' element={<AdminShop/>}></Route>
-            <Route exact path='/registarEvento' element={<AdminRegisterEvent/>}></Route>
+            <Route exact path='/formulario/:type' element={<AdminRegisterEvent/>}></Route>
+            <Route exact path='/comprar' element={<EventShop/>}></Route>
           </Routes>
         </ContainerDefault>
         <Footer />

@@ -25,7 +25,7 @@ const TableContainer = styled.table`
     }
 `
 
-export default function TableTwoColumns({ head, data }){
+export default function Table({ head, data }){
     return(
         <TableContainer>
             <thead>
@@ -39,9 +39,11 @@ export default function TableTwoColumns({ head, data }){
                 {
                     data.map((array) => (
                         <tr>
-                            {console.log(array)}
-                            <th>{array[0]}</th>
-                            <th>{array[1]}</th>
+                            {
+                                array.map((item) => (
+                                    <th>{item}</th>
+                                ))
+                            }
                         </tr>
                     ))
                 }

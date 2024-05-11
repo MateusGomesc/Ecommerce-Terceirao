@@ -76,8 +76,14 @@ export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
                 {
                     IsAdmin && (
                         <ButtonContainer>
-                            <ButtonNoBackground text={Open ? 'Fechar' : 'Abrir'} handleClick={changeStatus}/>
-                            <ButtonNoBackground text='Editar'/>
+                            <ButtonNoBackground 
+                                text={Open ? 'Fechar' : 'Abrir'} 
+                                handleClick={changeStatus}
+                            />
+                            <ButtonNoBackground 
+                                text='Editar'
+                                path='/formulario/editar'
+                            />
                         </ButtonContainer>
                     )
                 }
