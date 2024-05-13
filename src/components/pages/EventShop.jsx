@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { Banner } from "../layout/Banner.style";
@@ -42,6 +42,7 @@ const LinkStyled = styled(Link)`
     background-clip: text;
     text-decoration: underline;
     text-transform: uppercase;
+    text-decoration: none;
 `
 
 const Center = styled.div`
@@ -52,13 +53,59 @@ const Center = styled.div`
 
 
 export default function EventShop(){
+    const [checkbox, setCheckbox] = useState('unchecked')
+
+    // Modelo do objeto do carrinho
+    let cartModel = {
+        products: {},
+        payMethod: '',
+        price: 0,
+        terms: '',
+        proof: ''
+    }
+
+    useEffect(() => {
+        // Cria carrinho ao iniciar pagina
+        localStorage.setItem('cart', JSON.stringify(cartModel))
+    }, [])
+
+    const updateLocalStorage = () => {
+        // Recebe json do carrinho atual
+        let cartData = JSON.parse(localStorage.getItem('cart'))
+
+        // Atualiza valores no json
+        cartData.payMethod = document.getElementById('payMethod').value
+        cartData.terms = checkbox
+
+        // Envia valores atualizados
+        localStorage.setItem('cart', JSON.stringify(cartData))
+    }
+
+    const handleClickCheckbox = () => {
+        setCheckbox(checkbox === 'checked' ? 'unchecked' : 'checked')
+    }
+
+    const navigate = useNavigate()
+
+    const handleOnSubmit = () => {
+
+        if(document.getElementById('payMethod').value === 'PIX'){
+            navigate('/pagamento')
+        }
+        else{
+            navigate('/resumo')
+        }
+    }
+
     return(
         <>
             <Banner 
                 src={Personagens}
                 alt="Banner Trote de personagens"
             />
-            <Form>
+            <Form 
+                onSubmit={handleOnSubmit}
+            >
                 <Title
                     fontWeight='bold'
                     fontSize={24}
@@ -68,18 +115,18 @@ export default function EventShop(){
                 <Table
                     head={['Produto', 'Preço', 'Quantidade']}
                     data={[
-                        ['Brigadeiro', 'R$2,00', (<Count />)],
-                        ['Geladinho', 'R$5,00', (<Count />)]
+                        ['Brigadeiro', 'R$2,00', (<Count product='Brigadeiro' productPrice={2}/>)],
+                        ['Geladinho', 'R$5,00', (<Count product='Geladinho' productPrice={5}/>)]
                     ]}
                 />
-                <Price>Total: R$0,00</Price>
-                <Select 
-                    name='PayMethod'
+                <Price id='price'>Total: R$ 0,00</Price>
+                <Select
+                    name='payMethod'
                     label='Método de pagamento'
-                    options={['Dinheiro', 'PIX']}
+                    options={['Método de pagamento', 'Dinheiro', 'PIX']}
                 />
                 <TermsContainer>
-                    <Checkbox/>
+                    <Checkbox handleOnChange={handleClickCheckbox}/>
                     <Text>TERMOS DE USO - Você precisa aceitar os sequintes termos de uso uso para efetuar a compra: <LinkStyled to='/termos'>CLIQUE AQUI</LinkStyled></Text>
                 </TermsContainer>
                 <Center>
@@ -87,7 +134,7 @@ export default function EventShop(){
                         text='Comprar'
                         type='submit'
                         fontSize={16}
-                        path=''
+                        handleClick={updateLocalStorage}
                     />
                 </Center>
             </Form>

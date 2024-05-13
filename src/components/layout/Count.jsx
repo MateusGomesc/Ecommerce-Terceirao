@@ -1,5 +1,6 @@
 import styled from "styled-components"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { formatPrice } from "../../hooks/useFormatPrice"
 
 import Plus from '../../img/Plus.svg'
 import Minus from '../../img/Minus.svg'
@@ -23,15 +24,42 @@ const Number = styled.p`
     font-size: 14px;
 `
 
-export default function Count({}){
+export default function Count({ product, productPrice }){
     const [number, setNumber] = useState(0)
 
     const Increment = () => {
-        setNumber(number+1)
+        if(number < process.env.REACT_APP_PRODUCT_LIMIT){
+            setNumber(number+1)
+            updatePrice(true)
+        }
     }
+
     const Decrement = () => {
-        setNumber(number > 0 ? number-1 : 0)
+        if(number > 0){
+            setNumber(number-1)
+            updatePrice(false)
+        }
     }
+
+    const updatePrice = (isIncrement) => {
+        // Recebe json do local storage
+        const cartData = JSON.parse(localStorage.getItem('cart'))
+
+        // Atualiza o preço no json
+        isIncrement ? cartData.price += productPrice : cartData.price -= productPrice
+
+        // Atualiza preço no dom
+        document.getElementById('price').innerHTML = `Total: ${formatPrice(cartData.price)}`
+
+        // Envia dados atualizados
+        localStorage.setItem('cart', JSON.stringify(cartData))
+    }
+
+    useEffect(() => {
+        const cartData = JSON.parse(localStorage.getItem('cart'))
+        cartData.products[product] = number
+        localStorage.setItem('cart', JSON.stringify(cartData))
+    }, [number])
 
     return(
         <CountContainer>

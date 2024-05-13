@@ -32,7 +32,7 @@ export default function Select({ name, label, options }){
             <Label htmlFor={name}>{label}:</Label>
             <SelectContainer name={name} id={name} required>
                 {
-                    options.map((item) => <option value={item}>{item}</option>)
+                    options.map((item, index) => index === 0 ? <option value='' disabled selected>{item}</option> : <option value={item}>{item}</option>)
                 }
             </SelectContainer>
         </Container>

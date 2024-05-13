@@ -21,6 +21,10 @@ const Button = styled.button`
     text-decoration: none;
 `
 
+const LinkStyled = styled(Link)`
+    text-decoration: none;
+`
+
 export default function ButtonNoBackground({ text, type, handleClick, path }){
 
     return(
@@ -29,7 +33,7 @@ export default function ButtonNoBackground({ text, type, handleClick, path }){
             type={type}
         >
             {
-                path ? (<Link to={path}><Title fontSize='inherit'>{text}</Title></Link>) : (<Title fontSize='inherit'>{text}</Title>)
+                path ? (<LinkStyled to={path}><Title fontSize='inherit'>{text}</Title></LinkStyled>) : (<Title fontSize='inherit'>{text}</Title>)
             }
         </Button>
     )

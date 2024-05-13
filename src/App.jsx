@@ -15,6 +15,8 @@ import AdminEventShops from './components/pages/AdminEventShops';
 import AdminShop from './components/pages/AdminShop';
 import AdminRegisterEvent from './components/pages/AdminRegisterModifyEvent';
 import EventShop from './components/pages/EventShop';
+import EventPay from './components/pages/EventPay';
+import EventResume from './components/pages/EventResume';
 
 export default function App() {
   return (
@@ -33,6 +35,8 @@ export default function App() {
             <Route exact path='/detalhes' element={<AdminShop/>}></Route>
             <Route exact path='/formulario/:type' element={<AdminRegisterEvent/>}></Route>
             <Route exact path='/comprar' element={<EventShop/>}></Route>
+            <Route exact path='/pagamento' element={<EventPay/>}></Route>
+            <Route exact path='/resumo' element={<EventResume/>}></Route>
           </Routes>
         </ContainerDefault>
         <Footer />
