@@ -16,6 +16,11 @@ const TableContainer = styled.table`
         font-family: inherit;
         font-weight: 400;
         padding: 10px;
+        border: none;
+    }
+
+    & tr{
+        border: none;
     }
 
     & thead{

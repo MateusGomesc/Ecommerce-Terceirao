@@ -61,7 +61,8 @@ export default function EventShop(){
         payMethod: '',
         price: 0,
         terms: '',
-        proof: ''
+        proof: '',
+        user: ''
     }
 
     useEffect(() => {

@@ -5,7 +5,7 @@ import { Title } from './Title.style'
 
 
 
-const Button = styled.button`
+export const Button = styled.button`
     border-radius: 16px;
     background: linear-gradient(white, white) padding-box,
                 var(--gradient) border-box;

@@ -50,7 +50,7 @@ const ButtonContainer = styled.div`
 `
 
 
-export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
+export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen, IsShop=true }){
     const [Open, setOpen] = useState(IsOpen)
 
     const changeStatus = () => Open ? setOpen(false) : setOpen(true)
@@ -66,7 +66,7 @@ export default function EventCard({ EventName, EventDate, IsAdmin, IsOpen }){
                 }
                 <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
                 <Link 
-                    to={ IsAdmin ? '/compras' : '/comprar'}
+                    to={ IsAdmin ? '/compras' : IsShop ? '/comprar' : '/resumo'}
                     style={LinkStyle}
                 >
                     <Text>
