@@ -25,7 +25,7 @@ export default function Home(){
     return(
         <>
             <Text>Seja bem-vindo (a) ao sistema de vendas do <Regular>TERCEIRÃO INFORMÁTICA 2024</Regular> 👋</Text>
-            <Title fontWeight='bold'>Escolha o evento:</Title>
+            <Title fontWeight='bold' fontSize={24}>Escolha o evento:</Title>
             <EventCardContainer>
                 <EventCard 
                     EventName='Trote de personagens'

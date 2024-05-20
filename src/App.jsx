@@ -26,9 +26,9 @@ export default function App() {
         <Header />
         <ContainerDefault>
           <Routes>
-            <Route exact path='/' element={<Login/>}></Route>
+            <Route exact path='/login' element={<Login/>}></Route>
             <Route exact path='/termos' element={<Terms/>}></Route>
-            <Route exact path='/eventos' element={<Home/>}></Route>
+            <Route exact path='/' element={<Home/>}></Route>
             <Route exact path='/registre-se' element={<Register/>}></Route>
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={<AdminEvents/>}></Route>
