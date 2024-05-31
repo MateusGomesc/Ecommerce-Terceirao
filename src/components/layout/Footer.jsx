@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import LogoWithText from "../../img/logoWithText.svg"
 import { Title } from "./Title.style"

@@ -4,7 +4,6 @@ import { Banner } from "../layout/Banner.style";
 import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
 import Table from "../layout/Table";
-import { useEffect, useState } from "react";
 import { formatPrice } from "../../hooks/useFormatPrice";
 
 const Text = styled.p`

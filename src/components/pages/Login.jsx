@@ -1,20 +1,21 @@
 import styled from "styled-components"
+import axios from "axios"
+import { Formik, Form} from 'formik'
+import * as Yup from 'yup'
 
 import LogoWithText from "../../img/logoWithText.svg"
 import ButtonBackground from "../layout/ButtonBackground"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import Input from "../forms/Input"
-import { Form } from "../forms/Form.style"
-import { useNavigate } from "react-router-dom"
 
 const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
                 4px 4px 16px var(--shadow);
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     border-radius: 8px;
     padding: 12px 10px 24px 10px;
     gap: 8px;
@@ -26,16 +27,23 @@ const Container = styled.div`
             padding: 40px 10px 40px 10px;
         }
     }
-`
 
-const ContainerRight = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    & div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-    @media(min-width: 1024px){
-        & {
-            width: 48%;
+    & div img{
+        height: 48%;
+        width: 48%;
+
+        @media(min-width: 1024px){
+            &{
+                height: 256px;
+                width: 256px;
+            }
         }
     }
 `
@@ -47,18 +55,6 @@ const ButtonContainer = styled.div`
     gap: 8px;
 `
 
-const Image = styled.img`
-    height: 48%;
-    width: 48%;
-
-    @media(min-width: 1024px){
-        &{
-            height: 256px;
-            width: 256px;
-        }
-    }
-`
-
 const InputContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -68,41 +64,75 @@ const InputContainer = styled.div`
     margin-bottom: 18px;
 `
 
+const FormStyled = styled(Form)`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`
+
 export default function Login(){
 
-    const navigate = useNavigate()
-    const handleClick = () => navigate('/registrar')
+    // Configure Formik
+
+    const validationSchema = Yup.object({
+        email: Yup.string().email().required('Campo obrigatório'),
+        password: Yup.string().min(8, 'Sua senha deve conter no mínimo 8 caracteres').max(16, 'Sua senha pode ter no máximo 16 caracteres').required()
+    })
+
+    const initialValues = {
+        email: '',
+        password: ''
+    }
+
+    const handleLogin = (values, { setSubmitting }) => {
+        axios.post('http://localhost:3001/auth/login', values).then((response) => {
+            console.log(response)
+        })
+        setSubmitting(false)
+    }
 
     return(
         <>
             <Container>
-                <Image src={LogoWithText} alt="" />
-                <Form action="">
-                    <ContainerRight>
-                        <InputContainer>
-                            <Input 
-                                type='email'
-                                name='email'
-                                placeholder='Digite seu email'
-                                label='Email'
-                            />
-                            <Input 
-                                type='password'
-                                name='password'
-                                placeholder='Digite sua senha'
-                                label='Senha'
-                            />
-                        </InputContainer>
-                        <ButtonContainer>
-                            <ButtonBackground text='Entrar' type='submit'/>
-                            <ButtonNoBackground 
-                                text='Registrar-se' 
-                                handleClick={handleClick}
-                                type='button'
-                            />
-                        </ButtonContainer>
-                    </ContainerRight>
-                </Form>
+                <div>
+                    <img src={LogoWithText} alt="Logo terceirão Informática" />
+                </div>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleLogin}
+                >
+                    {
+                        ({ isSubmitting, errors, touched }) => (
+                            <FormStyled>
+                                <Input 
+                                    type="email"
+                                    name="email"
+                                    label="Email:"
+                                    placeholder="Digite seu email"
+                                />
+                                <Input 
+                                    type="password"
+                                    name="password"
+                                    label="Senha:"
+                                    placeholder="Digite sua senha"
+                                />
+                                <ButtonContainer>
+                                    <ButtonNoBackground 
+                                        text="Registrar"
+                                        path='/registrar'
+                                        type="Button"
+                                    />
+                                    <ButtonBackground 
+                                        text='Entrar'
+                                        type='submit'
+                                    />
+                                </ButtonContainer>
+                            </FormStyled>
+                        )
+                    }
+                </Formik>
             </Container>
         </>
     )

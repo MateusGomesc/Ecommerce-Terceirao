@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 import { Title } from '../layout/Title.style'
-import { ContainerDefault } from '../layout/ContainerDefault.style'
 
 const List = styled.ul`
     font-family: inherit;

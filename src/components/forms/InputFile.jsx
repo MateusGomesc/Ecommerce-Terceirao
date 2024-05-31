@@ -1,9 +1,6 @@
 import styled from "styled-components"
 import { useState } from "react"
 
-import Button from '../layout/ButtonNoBackground'
-import { Title } from "../layout/Title.style"
-
 const Label = styled.label`
     padding: 4px 16px 4px 16px;
     border-radius: 16px;

@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
-import { Form } from "../forms/Form.style";
 import Input from "../forms/Input";
 import { Title } from "../layout/Title.style";
 import ButtonRounded from "../forms/ButtonRounded";
@@ -42,58 +41,56 @@ export default function AdminRegisterEvent(){
             >
                 {type === 'cadastrar' ? 'Cadastro' : 'Modificação'} de eventos:
             </Title>
-            <Form>
-                <InputArea>
-                    <Input 
-                        label='Nome do evento'
-                        placeholder='Digite o nome do evento'
-                        type='text'
-                        name='EventName'
-                    />
-                    <Input 
-                        label='Data'
-                        type='date'
-                        name='EventDate'
-                    />
-                </InputArea>
-                <ButtonRounded
-                    type='plus'
-                    text='Adicionar Produto'
-                    handleOnClick={() => setProductsNumber(productsNumber+1)}
+            <InputArea>
+                <Input 
+                    label='Nome do evento'
+                    placeholder='Digite o nome do evento'
+                    type='text'
+                    name='EventName'
                 />
-                <ButtonRounded
-                    type='minus'
-                    text='Remover Produto'
-                    handleOnClick={() => productsNumber !== 0 && setProductsNumber(productsNumber-1)}
+                <Input 
+                    label='Data'
+                    type='date'
+                    name='EventDate'
                 />
-                {
-                    Array.from({ length: productsNumber }).map((_, index) => (
-                        <ProductArea>
-                            <Text>Produto {index+1}:</Text>
-                            <Input 
-                                label='Nome do produto'
-                                placeholder='Digite o nome do produto'
-                                type='text'
-                                name='ProductName'
-                            />
-                            <Input 
-                                label='Preço do produto'
-                                placeholder='Digite o preço do produto'
-                                type='number'
-                                name='ProductPrice'
-                            />
-                        </ProductArea>
-                    ))
-                }
-                <Select
-                    label='Status'
-                    options={['Aberto', 'Fechado']}
-                />
-                <ButtonBackground 
-                    text={type === 'cadastrar' ? 'Cadastrar' : 'Salvar'}
-                    type='Submit'
-                />
-            </Form>
+            </InputArea>
+            <ButtonRounded
+                type='plus'
+                text='Adicionar Produto'
+                handleOnClick={() => setProductsNumber(productsNumber+1)}
+            />
+            <ButtonRounded
+                type='minus'
+                text='Remover Produto'
+                handleOnClick={() => productsNumber !== 0 && setProductsNumber(productsNumber-1)}
+            />
+            {
+                Array.from({ length: productsNumber }).map((_, index) => (
+                    <ProductArea>
+                        <Text>Produto {index+1}:</Text>
+                        <Input 
+                            label='Nome do produto'
+                            placeholder='Digite o nome do produto'
+                            type='text'
+                            name='ProductName'
+                        />
+                        <Input 
+                            label='Preço do produto'
+                            placeholder='Digite o preço do produto'
+                            type='number'
+                            name='ProductPrice'
+                        />
+                    </ProductArea>
+                ))
+            }
+            <Select
+                label='Status'
+                options={['Aberto', 'Fechado']}
+            />
+            <ButtonBackground 
+                text={type === 'cadastrar' ? 'Cadastrar' : 'Salvar'}
+                type='Submit'
+            />
         </>
     )
 }

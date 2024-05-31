@@ -19,6 +19,11 @@ const EventCardContainer = styled.div`
     justify-content: center;
     gap: 48px;
     margin-top: 25px;
+    width: 100%;
+
+    @media(min-width: 1024px){
+        justify-content: start;
+    }
 `
 
 export default function Home(){

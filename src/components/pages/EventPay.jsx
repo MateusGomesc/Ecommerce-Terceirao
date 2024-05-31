@@ -6,9 +6,8 @@ import { Title } from "../layout/Title.style"
 import InputFile from "../forms/InputFile"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import QRcode from '../../img/qrcode.svg'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { formatPrice } from "../../hooks/useFormatPrice"
-import { Form } from "../forms/Form.style"
 
 const Text = styled.p`
     font-family: inherit;
@@ -83,7 +82,7 @@ export default function EventPay(){
             >
                 {copy ? 'Texto copiado!' : 'Clique para copiar o texto!'}
             </SubText>
-            <Form method="get" action="/resumo">
+            <form method="get" action="/resumo">
                 <InputFile/>
                 <ButtonContainer>
                     <ButtonNoBackground 
@@ -91,7 +90,7 @@ export default function EventPay(){
                         type='submit'
                     />
                 </ButtonContainer>
-            </Form>
+            </form>
         </>
     )
 }
