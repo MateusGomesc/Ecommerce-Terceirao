@@ -2,11 +2,14 @@ import styled from "styled-components"
 import axios from "axios"
 import { Formik, Form} from 'formik'
 import * as Yup from 'yup'
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import LogoWithText from "../../img/logoWithText.svg"
 import ButtonBackground from "../layout/ButtonBackground"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import Input from "../forms/Input"
+import { Alert } from "../layout/Alert.style"
 
 const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
@@ -27,15 +30,15 @@ const Container = styled.div`
             padding: 40px 10px 40px 10px;
         }
     }
+`
 
-    & div{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+const ImageContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    & div img{
+    & img{
         height: 48%;
         width: 48%;
 
@@ -50,34 +53,28 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
     display: flex;
-    justify-content: start;
-    width: 100%;
     gap: 8px;
-`
-
-const InputContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 18px;
+    margin-top: 8px;
 `
 
 const FormStyled = styled(Form)`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 `
 
 export default function Login(){
 
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
+    const navigate = useNavigate()
+
     // Configure Formik
 
     const validationSchema = Yup.object({
-        email: Yup.string().email().required('Campo obrigatório'),
-        password: Yup.string().min(8, 'Sua senha deve conter no mínimo 8 caracteres').max(16, 'Sua senha pode ter no máximo 16 caracteres').required()
+        email: Yup.string().email('Email inválido').required('Campo obrigatório'),
+        password: Yup.string().min(8, 'Sua senha deve conter no mínimo 8 caracteres').max(16, 'Sua senha pode ter no máximo 16 caracteres').required('Campo obrigatório')
     })
 
     const initialValues = {
@@ -86,8 +83,15 @@ export default function Login(){
     }
 
     const handleLogin = (values, { setSubmitting }) => {
-        axios.post('http://localhost:3001/auth/login', values).then((response) => {
-            console.log(response)
+        axios.post(process.env.REACT_APP_BASE_URL + "/auth/login", values).then((response) => {
+            if(response.data.error){
+                setAlert(true)
+                setAlertMessage(response.data.error)
+            }
+            else{
+                sessionStorage.setItem('acessToken', response.data)
+                navigate('/')
+            }
         })
         setSubmitting(false)
     }
@@ -95,9 +99,12 @@ export default function Login(){
     return(
         <>
             <Container>
-                <div>
+                <ImageContainer>
                     <img src={LogoWithText} alt="Logo terceirão Informática" />
-                </div>
+                </ImageContainer>
+                {
+                    alert && <Alert>{alertMessage}</Alert>
+                }
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
