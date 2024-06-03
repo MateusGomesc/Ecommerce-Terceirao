@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Field, ErrorMessage } from "formik"
+import { useState } from "react"
 
 const InputContainer = styled.div`
     display: flex;
@@ -10,7 +11,7 @@ const InputContainer = styled.div`
 const Label = styled.label`
     font-size: 12px;
     font-family: inherit;
-    width: ${props => props.width ? props.width : "100%"};
+    width: 100%;
 `
 const InputBox = styled.input`
     border-radius: 8px;
@@ -31,26 +32,38 @@ const ErrorStyled = styled.span`
 
 const Checkbox = styled.input`
     cursor: pointer;
-
-    &::after{
-        background-color: var(--bg-primary);
-    }
 `
 
 const CheckboxContainer = styled.div`
     gap: 8px;
     margin-top: 4px;
     width: 100%;
+    display: flex;
+
+    & p{
+        font-size: 12px;
+    }
 `
 
 
 export default function Input({ name, type="", label, placeholder, ...props }){
 
+    const [typeInput, setTypeInput] = useState(type)
+    const handlePassword = () => {
+        typeInput === "password" ? setTypeInput("text") : setTypeInput("password")
+    }
+
     return(
             <InputContainer>
                 <Label>{label}</Label>
-                <Field name={name} type={type} placeholder={placeholder} as={InputBox} required {...props}/>
+                <Field name={name} type={typeInput} placeholder={placeholder} as={InputBox} required {...props}/>
                 <ErrorMessage name={name} component={ErrorStyled} />
+                {type === 'password' && (
+                    <CheckboxContainer>
+                        <p>Mostrar senha</p>
+                        <Checkbox type="checkbox" onChange={handlePassword}/>
+                    </CheckboxContainer>
+                )}
             </InputContainer>
     )
 }

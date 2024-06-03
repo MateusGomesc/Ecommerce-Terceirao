@@ -28,7 +28,7 @@ export default function App() {
             <Route exact path='/login' element={<Login/>}></Route>
             <Route exact path='/termos' element={<Terms/>}></Route>
             <Route exact path='/' element={<Home/>}></Route>
-            <Route exact path='/registre-se' element={<Register/>}></Route>
+            <Route exact path='/registrar' element={<Register/>}></Route>
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={<AdminEvents/>}></Route>
             <Route exact path='/compras' element={<AdminEventShops/>}></Route>
