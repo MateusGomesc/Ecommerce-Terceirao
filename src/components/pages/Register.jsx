@@ -12,10 +12,11 @@ import { Alert } from "../layout/Alert.style";
 
 const FormStyled = styled(Form)`
     width: 100%;
-    margin-top: 8px;
+    max-width: 620px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 `
 
 
@@ -54,7 +55,7 @@ export default function Register(){
                 setAlertMessage(response.data.error)
             }
             else{
-                navigate('/login')
+                navigate('/login', { state: { message: response.data } })
             }
         })
         isSubmitting(false)

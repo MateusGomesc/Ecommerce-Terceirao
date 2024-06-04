@@ -2,8 +2,8 @@ import styled from "styled-components"
 import axios from "axios"
 import { Formik, Form} from 'formik'
 import * as Yup from 'yup'
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import LogoWithText from "../../img/logoWithText.svg"
 import ButtonBackground from "../layout/ButtonBackground"
@@ -15,6 +15,7 @@ const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
                 4px 4px 16px var(--shadow);
     width: 100%;
+    max-width: 620px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,7 +69,17 @@ export default function Login(){
 
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
+    const [alertType, setAlertType] = useState("error")
     const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        if(location.state){
+            setAlertMessage(location.state.message)
+            setAlert(true)
+            setAlertType('success')
+        }
+    }, [])
 
     // Configure Formik
 
@@ -103,7 +114,7 @@ export default function Login(){
                     <img src={LogoWithText} alt="Logo terceirão Informática" />
                 </ImageContainer>
                 {
-                    alert && <Alert>{alertMessage}</Alert>
+                    alert && <Alert type={alertType}>{alertMessage}</Alert>
                 }
                 <Formik
                     initialValues={initialValues}

@@ -21,6 +21,7 @@ const InputBox = styled.input`
     padding: 8px 10px 8px 10px;
     outline: none;
     width: 100%;
+    max-width: 600px;
 `
 
 const ErrorStyled = styled.span`
@@ -55,8 +56,8 @@ export default function Input({ name, type="", label, placeholder, ...props }){
 
     return(
             <InputContainer>
-                <Label>{label}</Label>
-                <Field name={name} type={typeInput} placeholder={placeholder} as={InputBox} required {...props}/>
+                <Label htmlFor={name}>{label}</Label>
+                <Field id={name} name={name} type={typeInput} placeholder={placeholder} as={InputBox} required {...props}/>
                 <ErrorMessage name={name} component={ErrorStyled} />
                 {type === 'password' && (
                     <CheckboxContainer>
