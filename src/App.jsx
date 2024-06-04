@@ -17,6 +17,7 @@ import EventShop from './components/pages/EventShop';
 import EventPay from './components/pages/EventPay';
 import EventResume from './components/pages/EventResume';
 import UserEvents from './components/pages/UserEvents';
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 export default function App() {
   return (
@@ -30,7 +31,11 @@ export default function App() {
             <Route exact path='/' element={<Home/>}></Route>
             <Route exact path='/registrar' element={<Register/>}></Route>
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
-            <Route exact path='/admin' element={<AdminEvents/>}></Route>
+            <Route exact path='/admin' element={
+              <ProtectedRoute isAuth={false}>
+                <AdminEvents/>
+              </ProtectedRoute>
+            }></Route>
             <Route exact path='/compras' element={<AdminEventShops/>}></Route>
             <Route exact path='/detalhes' element={<AdminShop/>}></Route>
             <Route exact path='/formulario/:type' element={<AdminRegisterEvent/>}></Route>
