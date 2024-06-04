@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer';
@@ -20,6 +21,22 @@ import UserEvents from './components/pages/UserEvents';
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 export default function App() {
+
+  const [isAuth, setIsAuth] = useState(true)
+
+  //verify admin user
+  useEffect(() => {
+    const acessToken = sessionStorage.getItem('acessToken')
+
+    if(!acessToken){
+      setIsAuth(false)
+    }
+    else{
+      const decodeToken = jwtDecode(acessToken)
+      setIsAuth(decodeToken.isAdmin)
+    }
+  }, [])
+
   return (
     <>
       <Router>
@@ -32,13 +49,25 @@ export default function App() {
             <Route exact path='/registrar' element={<Register/>}></Route>
             <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={
-              <ProtectedRoute isAuth={false}>
+              <ProtectedRoute isAuth={isAuth}>
                 <AdminEvents/>
               </ProtectedRoute>
             }></Route>
-            <Route exact path='/compras' element={<AdminEventShops/>}></Route>
-            <Route exact path='/detalhes' element={<AdminShop/>}></Route>
-            <Route exact path='/formulario/:type' element={<AdminRegisterEvent/>}></Route>
+            <Route exact path='/compras' element={
+              <ProtectedRoute isAuth={isAuth}>
+                <AdminEventShops/>
+            </ProtectedRoute>
+            }></Route>
+            <Route exact path='/detalhes' element={
+              <ProtectedRoute isAuth={isAuth}>
+                <AdminShop/>
+            </ProtectedRoute>
+            }></Route>
+            <Route exact path='/formulario/:type' element={
+              <ProtectedRoute isAuth={isAuth}>
+                <AdminRegisterEvent/>
+            </ProtectedRoute>
+            }></Route>
             <Route exact path='/comprar' element={<EventShop/>}></Route>
             <Route exact path='/pagamento' element={<EventPay/>}></Route>
             <Route exact path='/resumo' element={<EventResume/>}></Route>
