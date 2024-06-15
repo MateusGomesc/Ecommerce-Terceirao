@@ -56,17 +56,17 @@ export default function App() {
             <Route exact path='/compras' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminEventShops/>
-            </ProtectedRoute>
+              </ProtectedRoute>
             }></Route>
             <Route exact path='/detalhes' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminShop/>
-            </ProtectedRoute>
+              </ProtectedRoute>
             }></Route>
-            <Route exact path='/formulario/:type' element={
-              <ProtectedRoute isAuth={isAuth}>
+            <Route exact path='/formulario/:type/:id' element={
+              <ProtectedRoute isAuth={true}>
                 <AdminRegisterEvent/>
-            </ProtectedRoute>
+              </ProtectedRoute>
             }></Route>
             <Route exact path='/comprar' element={<EventShop/>}></Route>
             <Route exact path='/pagamento' element={<EventPay/>}></Route>

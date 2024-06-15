@@ -21,6 +21,7 @@ const Input = styled.input`
 
 const Container = styled.div`
     width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +34,7 @@ const FileName = styled.span`
     font-size: 14px;
 `
 
-export default function InputFile(){
+export default function InputFile({ name, handleOnChange, text }){
     const [fileName, setFileName] = useState('')
 
     const getFileName = (e) => {
@@ -42,10 +43,15 @@ export default function InputFile(){
         }
     }
 
+    const handleChange = (e) => {
+        handleOnChange(e)
+        getFileName(e)
+    }
+
     return(
         <Container>
-            <Label htmlFor="proof">Anexar Comprovante</Label>
-            <Input type="file" accept="image/*" id="proof" onChange={getFileName} required></Input>
+            <Label htmlFor={name}>{text}</Label>
+            <Input type="file" accept="image/*" id={name} onChange={handleChange} required></Input>
             <FileName>{fileName}</FileName>
         </Container>
     )

@@ -7,6 +7,6 @@ export const Alert = styled.span`
     border-radius: 8px;
     padding: 8px;
     background-color: ${props => props.type === 'error' ? '#f8d7da' : '#DFF0D8'};
-    color: ${props => props.type === 'error' ? '#4F8A10' : ''};
+    color: ${props => props.type === 'error' ? '#eb3749' : '#4F8A10'};
     margin: 8px 0;
 `

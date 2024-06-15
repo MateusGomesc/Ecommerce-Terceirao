@@ -16,10 +16,10 @@ const ButtonContainer = styled.button`
 
 const Container = styled.div`
     width: 100%;
+    max-width: 600px;
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 10px 0;
 `
 
 const Text = styled.p`
