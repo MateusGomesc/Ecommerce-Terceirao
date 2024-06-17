@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 import ButtonNoBackground from "../layout/ButtonNoBackground";
 import { Title } from "../layout/Title.style";
@@ -20,8 +22,38 @@ const EventCardContainer = styled.div`
     margin-bottom: 32px;
 `
 
+
 export default function AdminEvents(){
+    const [data, setData] = useState([])
+
+    const getDate = (date) => {
+        const month = {
+            '01': 'JAN',
+            '02': 'FEV',
+            '03': 'MAR',
+            '04': 'ABR',
+            '05': 'MAI',
+            '06': 'JUN',
+            '07': 'JUL',
+            '08': 'AGO',
+            '09': 'SET',
+            '10': 'OUT',
+            '11': 'NOV',
+            '12': 'DEZ'
+        }
+
+        const array = date.split('-')
+        return `${array[2]} ${month[array[1]]} ${array[0]}`
+    }
+    
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BASE_URL + '/events').then((response) => {
+            setData(response.data)
+        })
+    }, [])
+    
     return(
+        // excluir e imagem
         <>
             <Title
                 fontWeight='bold'
@@ -32,17 +64,25 @@ export default function AdminEvents(){
             <ButtonContainer>
                 <ButtonNoBackground 
                     text='Cadastrar'
-                    path='/formulario/cadastrar'
+                    path='/formulario/cadastro/0'
                     type='button'
                 />
             </ButtonContainer>
             <EventCardContainer>
-                <EventCard 
-                    EventName='Trote de personagens'
-                    EventDate='11 Abr 2024'
-                    IsAdmin={true}
-                    IsOpen={true}
-                />
+                {
+                    data.length === 0 ? 'Nenhum evento encontrado' :
+                    data.map((event) => (
+                        <EventCard
+                            EventId={event.id} 
+                            EventName={event.name}
+                            EventDate={getDate(event.date)}
+                            IsAdmin={true}
+                            IsOpen={event.status}
+                            EventImage={event.image}
+                            EventLocation={event.location}
+                        />
+                    ))
+                }
             </EventCardContainer>
         </>
     )

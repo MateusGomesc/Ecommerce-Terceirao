@@ -68,7 +68,7 @@ export default function App() {
                 <AdminRegisterEvent/>
               </ProtectedRoute>
             }></Route>
-            <Route exact path='/comprar' element={<EventShop/>}></Route>
+            <Route exact path='/comprar/:id' element={<EventShop/>}></Route>
             <Route exact path='/pagamento' element={<EventPay/>}></Route>
             <Route exact path='/resumo' element={<EventResume/>}></Route>
             <Route exact path='/seusEventos' element={<UserEvents/>}></Route>
