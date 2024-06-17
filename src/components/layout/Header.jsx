@@ -3,6 +3,7 @@ import ButtonBackground from './ButtonBackground'
 
 import logoNoText from '../../img/logoNoText.svg'
 import { Link } from 'react-router-dom'
+import Dropdown from './Dropdown'
 
 
 const HeaderContainer = styled.header`
@@ -30,9 +31,7 @@ export default function Header(){
     return(
         <HeaderContainer>
             <Link to="/" style={LinkStyle}><img src={logoNoText} alt="Logo Terceirão" /></Link>
-            <ButtonBackground
-                text='User'
-            />
+            <Dropdown/>
         </HeaderContainer>
     )
 }

@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import User from '../../img/User.png'
-
 const Button = styled.button`
     border-radius: 16px;
     background: var(--gradient);
@@ -18,7 +16,7 @@ const Button = styled.button`
 export default function ButtonBackground({ text, type }){
     return(
         <Button type={type}>
-            {text === 'User' ? ( <img src={User} alt='Simbolo do usuário'/> ) : text}
+            {text}
         </Button>
     )
 }
