@@ -27,6 +27,10 @@ const Info = styled.div`
 
 const Image = styled.img`
     border-radius: 8px 8px 0 0;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: top;
 `
 
 const CardBody = styled.div`

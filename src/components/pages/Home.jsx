@@ -1,4 +1,7 @@
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import axios from "axios"
+
 import { Title } from "../layout/Title.style"
 import EventCard from "../layout/EventCard"
 
@@ -26,17 +29,55 @@ const EventCardContainer = styled.div`
     }
 `
 
+
 export default function Home(){
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
+            setData(response.data)
+        })
+    }, [])
+
+    const getDate = (date) => {
+        const month = {
+            '01': 'JAN',
+            '02': 'FEV',
+            '03': 'MAR',
+            '04': 'ABR',
+            '05': 'MAI',
+            '06': 'JUN',
+            '07': 'JUL',
+            '08': 'AGO',
+            '09': 'SET',
+            '10': 'OUT',
+            '11': 'NOV',
+            '12': 'DEZ'
+        }
+
+        const array = date.split('-')
+        return `${array[2]} ${month[array[1]]} ${array[0]}`
+    }
+
     return(
         <>
             <Text>Seja bem-vindo (a) ao sistema de vendas do <Regular>TERCEIRÃO INFORMÁTICA 2024</Regular> 👋</Text>
             <Title fontWeight='bold' fontSize={24}>Escolha o evento:</Title>
             <EventCardContainer>
-                <EventCard 
-                    EventName='Trote de personagens'
-                    EventDate='11 Abr 2024'
-                    IsAdmin={false}
-                />
+                {
+                    data.lenght === 0 ? 'Nenhum evento encontrado' :
+                    data.map((event) => (
+                        <EventCard 
+                            EventId={event.id}
+                            EventName={event.name}
+                            EventDate={getDate(event.date)}
+                            EventLocation={event.location}
+                            EventImage={event.image}
+                            IsAdmin={false}
+                            IsShop={true}
+                        />
+                    ))
+                }
             </EventCardContainer>
         </>
     )
