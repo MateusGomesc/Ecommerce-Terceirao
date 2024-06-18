@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { formatPrice } from "../../hooks/useFormatPrice";
 
 import { Banner } from "../layout/Banner.style";
-import Personagens from '../../img/personagens.svg'
 import { Title } from "../layout/Title.style";
 import Table from "../layout/Table";
 import Count from "../layout/Count";
-import Select from "../forms/Select";
 import Checkbox from "../forms/Checkbox";
 import ButtonNoBackground from "../layout/ButtonNoBackground";
 
@@ -50,9 +51,28 @@ const Center = styled.div`
     margin-top: 25px;
 `
 
+const SelectContainer = styled.select`
+    background: linear-gradient(white, white) padding-box,
+                var(--gradient) border-box;
+    border: 1px solid transparent;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+    padding: 8px 10px 8px 10px;
+    outline: none;
+    margin: 20px 0;
+
+    &:hover{
+        outline: none;
+    }
+`
+
 
 export default function EventShop(){
     const [checkbox, setCheckbox] = useState('unchecked')
+    const [data, setData] = useState({})
+    const [products, setProducts] = useState([])
+    const { id } = useParams()
 
     // Modelo do objeto do carrinho
     let cartModel = {
@@ -61,13 +81,36 @@ export default function EventShop(){
         price: 0,
         terms: '',
         proof: '',
-        user: ''
+        user: '',
+        event: '',
     }
 
     useEffect(() => {
+        const acessToken = sessionStorage.getItem('acessToken')
+
+        if(acessToken){
+            const decodedToken = jwtDecode(acessToken)
+            cartModel.user = decodedToken.id
+            cartModel.event = parseInt(id)
+        }
+
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+            setData(response.data)
+
+            if (response.data && response.data.products) {
+                const newProducts = response.data.products.map((product) => [
+                    product.name,
+                    formatPrice(product.price),
+                    (<Count key={product.name} product={product.name} productPrice={product.price} productId={product.id} />)
+                ]);
+
+                setProducts(newProducts);
+            }
+        })
+
         // Cria carrinho ao iniciar pagina
         localStorage.setItem('cart', JSON.stringify(cartModel))
-    }, [])
+    }, [id])
 
     const updateLocalStorage = () => {
         // Recebe json do carrinho atual
@@ -88,8 +131,16 @@ export default function EventShop(){
     const navigate = useNavigate()
 
     const handleOnSubmit = () => {
+        const acessToken = sessionStorage.getItem('acessToken')
+        const price = JSON.parse(localStorage.getItem('cart')).price
 
-        if(document.getElementById('payMethod').value === 'PIX'){
+        if(!price){
+            return 1
+        }
+        else if(!acessToken){
+            navigate('/login')
+        }
+        else if(document.getElementById('payMethod').value === 'PIX'){
             navigate('/pagamento')
         }
         else{
@@ -100,40 +151,42 @@ export default function EventShop(){
     return(
         <>
             <Banner 
-                src={Personagens}
-                alt="Banner Trote de personagens"
+                src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')}
+                alt={'Banner' + data?.event?.name}
             />
             <Title
                 fontWeight='bold'
                 fontSize={24}
             >
-                Trote de personagens:
+                {data?.event?.name}
             </Title>
             <Table
                 head={['Produto', 'Preço', 'Quantidade']}
-                data={[
-                    ['Brigadeiro', 'R$2,00', (<Count product='Brigadeiro' productPrice={2}/>)],
-                    ['Geladinho', 'R$5,00', (<Count product='Geladinho' productPrice={5}/>)]
-                ]}
+                data={products}
             />
             <Price id='price'>Total: R$ 0,00</Price>
-            <Select
-                name='payMethod'
-                label='Método de pagamento'
-                options={['Método de pagamento', 'Dinheiro', 'PIX']}
-            />
-            <TermsContainer>
-                <Checkbox handleOnChange={handleClickCheckbox}/>
-                <Text>TERMOS DE USO - Você precisa aceitar os sequintes termos de uso uso para efetuar a compra: <LinkStyled to='/termos'>CLIQUE AQUI</LinkStyled></Text>
-            </TermsContainer>
-            <Center>
-                <ButtonNoBackground 
-                    text='Comprar'
-                    type='submit'
-                    fontSize={16}
-                    handleClick={updateLocalStorage}
-                />
-            </Center>
+            <form onSubmit={handleOnSubmit} width='100%'>
+                <SelectContainer
+                    name='payMethod'
+                    id='payMethod'
+                >
+                    <option value="" disabled defaultChecked>Método de pagamento</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="PIX">PIX</option>
+                </SelectContainer>
+                <TermsContainer>
+                    <Checkbox handleOnChange={handleClickCheckbox}/>
+                    <Text>TERMOS DE USO - Você precisa aceitar os sequintes termos de uso uso para efetuar a compra: <LinkStyled to='/termos'>CLIQUE AQUI</LinkStyled></Text>
+                </TermsContainer>
+                <Center>
+                    <ButtonNoBackground 
+                        text='Comprar'
+                        type='submit'
+                        fontSize={16}
+                        handleClick={updateLocalStorage}
+                    />
+                </Center>
+            </form>
         </>
     )
 }

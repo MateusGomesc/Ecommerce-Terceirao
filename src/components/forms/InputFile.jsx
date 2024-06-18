@@ -44,8 +44,11 @@ export default function InputFile({ name, handleOnChange, text }){
     }
 
     const handleChange = (e) => {
-        handleOnChange(e)
         getFileName(e)
+        try{
+            handleOnChange(e)
+        }
+        catch{}
     }
 
     return(

@@ -1,10 +1,13 @@
 import styled from "styled-components";
+import { formatPrice } from "../../hooks/useFormatPrice";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import { Banner } from "../layout/Banner.style";
 import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
 import Table from "../layout/Table";
-import { formatPrice } from "../../hooks/useFormatPrice";
 
 const Text = styled.p`
     font-family: inherit;
@@ -32,25 +35,50 @@ const PayMethod = styled.p`
 `
 
 export default function EventResume(){
-    const cartData = JSON.parse(localStorage.getItem('cart'))
+    const [dataOrder, setDataOrder] = useState({})
+    const [dataEvent, setDataEvent] = useState({})
+    const [products, setProducts] = useState([])
+    const { EventId, OrderId } = useParams()
+
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BASE_URL + '/orders/' + OrderId).then((response) => {
+            if(!response.data.error){
+                setDataOrder(response.data)
+
+                const ProductsId = response.data.items.map((item) => item.ProductId)
+                const ProductsQuantity = response.data.items.map((item) => item.quantity)
+
+                axios.post(process.env.REACT_APP_BASE_URL + '/products', { ids: ProductsId }).then((response) => {
+                    let array = response.data
+                    let mergedArray = array.map((item, index) => [item, ProductsQuantity[index]])
+                    setProducts(mergedArray)
+                })
+            }
+        })
+
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + EventId).then((response) => {
+            setDataEvent(response.data)
+        })
+    }, [])
 
     return(
         <>
-            <Banner src={Personagens} alt="Banner do Trote de Personagens"/>
+            <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + dataEvent?.event?.name}/>
             <Title
                 fontWeight='bold'
                 fontSize={24}
             >
-                Trote de personagens:
+                {dataEvent?.event?.name}
             </Title>
             <Text>Compra finalizada!</Text>
             <Text>Resumo da sua compra:</Text>
             <Table
                 head={['Produto', 'Quantidade']}
-                data={Object.entries(cartData.products)}
+                data={products}
             />
-            <Price>Total: {formatPrice(cartData.price)}</Price>
-            <PayMethod>Método de pagamento: {cartData.payMethod}</PayMethod>
+            <Price>Total: {formatPrice(dataOrder?.order?.price)}</Price>
+            <PayMethod>Método de pagamento: {dataOrder?.order?.payMethod}</PayMethod>
         </>
     )
 }

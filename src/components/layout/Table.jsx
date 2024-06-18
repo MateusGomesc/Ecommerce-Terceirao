@@ -19,6 +19,14 @@ const TableContainer = styled.table`
         border: none;
     }
 
+    & td{
+        text-align: start;
+        font-family: inherit;
+        font-weight: 400;
+        padding: 10px;
+        border: none;
+    }
+
     & tr{
         border: none;
     }
@@ -42,11 +50,11 @@ export default function Table({ head, data }){
             </thead>
             <tbody>
                 {
-                    data.map((array) => (
-                        <tr>
+                    data.map((array, rowIndex) => (
+                        <tr key={rowIndex}>
                             {
-                                array.map((item) => (
-                                    <th>{item}</th>
+                                array.map((item, columnIndex) => (
+                                    <td key={columnIndex}>{item}</td>
                                 ))
                             }
                         </tr>

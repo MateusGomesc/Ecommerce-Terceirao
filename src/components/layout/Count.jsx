@@ -24,7 +24,7 @@ const Number = styled.p`
     font-size: 14px;
 `
 
-export default function Count({ product, productPrice }){
+export default function Count({ product, productPrice, productId }){
     const [number, setNumber] = useState(0)
 
     const Increment = () => {
@@ -49,7 +49,7 @@ export default function Count({ product, productPrice }){
         isIncrement ? cartData.price += productPrice : cartData.price -= productPrice
 
         // Atualiza preço no dom
-        document.getElementById('price').innerHTML = `Total: ${formatPrice(cartData.price)}`
+        document.getElementById('price').innerHTML = `Total: ${formatPrice(parseFloat(cartData.price))}`
 
         // Envia dados atualizados
         localStorage.setItem('cart', JSON.stringify(cartData))
@@ -57,7 +57,7 @@ export default function Count({ product, productPrice }){
 
     useEffect(() => {
         const cartData = JSON.parse(localStorage.getItem('cart'))
-        cartData.products[product] = number
+        cartData.products[productId] = number
         localStorage.setItem('cart', JSON.stringify(cartData))
     }, [number])
 

@@ -22,20 +22,29 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 export default function App() {
 
-  const [isAuth, setIsAuth] = useState(true)
+  const [isAuth, setIsAuth] = useState(false)
 
   //verify admin user
   useEffect(() => {
-    const acessToken = sessionStorage.getItem('acessToken')
+    const verifyToken = () => {
+      const acessToken = sessionStorage.getItem('acessToken')
+  
+      if(!acessToken){
+        setIsAuth(false)
+      }
+      else{
+        const decodeToken = jwtDecode(acessToken)
+        setIsAuth(decodeToken.isAdmin)
+      }
+    }
 
-    if(!acessToken){
-      setIsAuth(false)
-    }
-    else{
-      const decodeToken = jwtDecode(acessToken)
-      setIsAuth(decodeToken.isAdmin)
-    }
-  }, [])
+    verifyToken()
+
+    const intervalVerification = setInterval(verifyToken, 60000)
+
+    return () => clearInterval(intervalVerification)
+
+  })
 
   return (
     <>
@@ -70,7 +79,7 @@ export default function App() {
             }></Route>
             <Route exact path='/comprar/:id' element={<EventShop/>}></Route>
             <Route exact path='/pagamento' element={<EventPay/>}></Route>
-            <Route exact path='/resumo' element={<EventResume/>}></Route>
+            <Route exact path='/resumo/:EventId/:OrderId' element={<EventResume/>}></Route>
             <Route exact path='/seusEventos' element={<UserEvents/>}></Route>
           </Routes>
         </ContainerDefault>

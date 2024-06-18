@@ -1,13 +1,14 @@
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import { formatPrice } from "../../hooks/useFormatPrice"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 import { Banner } from "../layout/Banner.style"
-import Personagens from '../../img/personagens.svg'
 import { Title } from "../layout/Title.style"
 import InputFile from "../forms/InputFile"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import QRcode from '../../img/qrcode.svg'
-import { useState } from "react"
-import { formatPrice } from "../../hooks/useFormatPrice"
 
 const Text = styled.p`
     font-family: inherit;
@@ -56,7 +57,15 @@ const ButtonContainer = styled.div`
 
 export default function EventPay(){
     const [copy, setCopy] = useState(false)
+    const [data, setData] = useState({})
     const cartData = JSON.parse(localStorage.getItem('cart'))
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + cartData.event).then((response) => {
+            setData(response.data)
+        })
+    }, [])
 
     const handleCopy = () => {
         navigator.clipboard.writeText(process.env.REACT_APP_LINK_PIX)
@@ -64,14 +73,36 @@ export default function EventPay(){
         .catch(() => setCopy(false))
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        
+        if(event.target.proof.files[0]){
+            const formData = new FormData()
+            formData.append('user', cartData.user)
+            formData.append('event', cartData.event)
+            formData.append('price', cartData.price)
+            formData.append('payMethod', cartData.payMethod)
+            formData.append('products', JSON.stringify(cartData.products))
+            formData.append('proof', event.target.proof.files[0])
+
+            axios.post(process.env.REACT_APP_BASE_URL + '/orders', formData).then((response) => {
+                if(!response.data.error){
+                    localStorage.removeItem('cart')
+                    navigate('/resumo/' + cartData.event)
+                }
+            })
+        }
+    }
+
     return(
         <>
-            <Banner src={Personagens} alt="Banner Trote de personagens"/>
+            <Banner src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + data?.event?.name}/>
             <Title
                 fontWeight='bold'
                 fontSize={24}
             >
-                Trote de personagens:
+                {data?.event?.name}
             </Title>
             <Text>Faça o pagamento via <Bold>pix copia e cola</Bold> ou pelo <Bold>qrcode</Bold> e anexe o comprovante no botão abaixo:</Text>
             <Price>Total: {formatPrice(cartData.price)}</Price>
@@ -82,8 +113,11 @@ export default function EventPay(){
             >
                 {copy ? 'Texto copiado!' : 'Clique para copiar o texto!'}
             </SubText>
-            <form method="get" action="/resumo">
-                <InputFile/>
+            <form onSubmit={handleSubmit}>
+                <InputFile
+                    text='Anexar comprovante'
+                    name='proof'
+                />
                 <ButtonContainer>
                     <ButtonNoBackground 
                         text='Avançar'
