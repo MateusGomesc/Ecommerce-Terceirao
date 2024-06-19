@@ -9,7 +9,9 @@ import EventCard from "../layout/EventCard";
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: start;
+    flex-wrap: wrap;
     width: 100%;
+    gap: 8px;
     margin-top: 15px;
     margin-bottom: 32px;
 `
@@ -63,8 +65,13 @@ export default function AdminEvents(){
             </Title>
             <ButtonContainer>
                 <ButtonNoBackground 
-                    text='Cadastrar'
+                    text='Cadastrar Evento'
                     path='/formulario/cadastro/0'
+                    type='button'
+                />
+                <ButtonNoBackground 
+                    text='Cadastrar Administrador'
+                    path='/setarAdmin'
                     type='button'
                 />
             </ButtonContainer>

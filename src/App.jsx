@@ -18,6 +18,7 @@ import EventPay from './components/pages/EventPay';
 import EventResume from './components/pages/EventResume';
 import UserEvents from './components/pages/UserEvents';
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import AdminSet from "./components/pages/AdminSet";
 
 export default function App() {
 
@@ -58,6 +59,11 @@ export default function App() {
             <Route exact path='/admin' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminEvents/>
+              </ProtectedRoute>
+            }></Route>
+            <Route exact path='/cadastrarAdmin' element={
+              <ProtectedRoute isAuth={isAuth}>
+                <AdminSet/>
               </ProtectedRoute>
             }></Route>
             <Route exact path='/compras/:id' element={
