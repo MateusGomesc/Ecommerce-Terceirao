@@ -1,9 +1,11 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useLocation } from "react-router-dom"
 
 import { Title } from "../layout/Title.style"
 import EventCard from "../layout/EventCard"
+import { Alert } from "../layout/Alert.style"
 
 const Text = styled.p`
     font-family: inherit;
@@ -32,11 +34,21 @@ const EventCardContainer = styled.div`
 
 export default function Home(){
     const [data, setData] = useState([])
+    const [alert, setAlert] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
+    const [alertType, setAlertType] = useState("error")
+
+    const location = useLocation()
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
             setData(response.data)
         })
+
+        if(location.state){
+            setAlert(true)
+            setAlertMessage(location.state.message)
+        }
     }, [])
 
     const getDate = (date) => {
@@ -63,6 +75,9 @@ export default function Home(){
         <>
             <Text>Seja bem-vindo (a) ao sistema de vendas do <Regular>TERCEIRÃO INFORMÁTICA 2024</Regular> 👋</Text>
             <Title fontWeight='bold' fontSize={24}>Escolha o evento:</Title>
+            {
+                alert && <Alert type={alertType}>{alertMessage}</Alert>
+            }
             <EventCardContainer>
                 {
                     data.lenght === 0 ? 'Nenhum evento encontrado' :

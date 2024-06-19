@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { jwtDecode } from "jwt-decode"
 
-import Personagens from '../../img/personagens.svg'
 import { Title } from "./Title.style"
 import ButtonNoBackground from "./ButtonNoBackground"
 import { Alert } from "./Alert.style"
@@ -71,6 +71,7 @@ const ButtonContainer = styled.div`
 
 export default function EventCard({ EventId, EventName, EventDate, EventImage, EventLocation, IsAdmin, IsOpen, IsShop=true }){
     const [Open, setOpen] = useState(IsOpen)
+    const [shop, isShop] = useState(IsShop)
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("error")
@@ -83,9 +84,7 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
 
         axios.patch(process.env.REACT_APP_BASE_URL + '/events/status/' + EventId, data).then((response) => {
             if(response.data.error){
-                setTimeout(() => {
-                    setAlert(true)
-                }, 5000)
+                setAlert(true)
                 setAlertMessage(response.data.error)
             }
             else{
@@ -112,6 +111,20 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
         })
     }
 
+    const navigate = useNavigate()
+
+    const verifyShop = () => {
+        const acessToken = sessionStorage.getItem('acessToken')
+        const decodedToken = jwtDecode(acessToken)
+
+        axios.get(process.env.REACT_APP_BASE_URL + '/orders/hasShop/' + EventId + '/' + decodedToken.id).then((response) => {
+            if(!response.data.status){
+                isShop(!shop)
+                navigate('/', { state: { message: response.data.message }})
+            }
+        })
+    }
+
     return(
         <CardContainer>
             <Image src={process.env.REACT_APP_BASE_URL + '/' + EventImage.replace(/\\/g, '/')} alt={`Banner ${EventName}`} />
@@ -129,8 +142,9 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
                     <SubTitle>{EventLocation}</SubTitle>
                 </Info>
                 <Link 
-                    to={ IsAdmin ? '/compras/' + EventId : IsShop ? '/comprar/' + EventId : '/resumo/' + EventId}
+                    to={ IsAdmin ? '/compras/' + EventId : isShop ? '/comprar/' + EventId : '/resumo/' + EventId}
                     style={LinkStyle}
+                    onClick={!IsAdmin && verifyShop}
                 >
                     <Text>
                         {EventName}
