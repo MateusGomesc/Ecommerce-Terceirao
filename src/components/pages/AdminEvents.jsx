@@ -71,7 +71,7 @@ export default function AdminEvents(){
                 />
                 <ButtonNoBackground 
                     text='Cadastrar Administrador'
-                    path='/setarAdmin'
+                    path='/cadastrarAdmin'
                     type='button'
                 />
             </ButtonContainer>

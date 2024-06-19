@@ -54,7 +54,7 @@ const DropdownItem = styled.li`
 
 export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOptions] = useState([])
+  const [options, setOptions] = useState(['Minhas compras', '/seusEventos'])
   const navigate = useNavigate()
 
   const toggleDropdown = () => {
@@ -72,8 +72,7 @@ export default function Dropdown() {
         }
         else if(decodedtoken.isAdmin){
             setOptions([
-                ['Minhas compras', '/'],
-                ['Minhas informações', '/informacoes'],
+                ['Minhas compras', '/seusEventos'],
                 ['Painel de controle', '/admin']
             ])
         }
