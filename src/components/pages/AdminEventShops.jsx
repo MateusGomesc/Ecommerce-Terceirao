@@ -14,6 +14,11 @@ const LinkStyled = styled(Link)`
     color: inherit;
 `
 
+const Separator = styled.div`
+    height: 20px;
+    width: 100%;
+`
+
 export default function AdminEventShops(){
     const { id } = useParams()
     const [dataEvent, setDataEvent] = useState({})
@@ -36,12 +41,11 @@ export default function AdminEventShops(){
         })
     }, [])
 
-    console.log('data: ' + tableData)
-
     return(
         <>
             <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image} alt='Banner Trote de personagens'/>
             <Title fontSize={24}>{dataEvent?.event?.name}</Title>
+            <Separator/>
             <Title fontSize={20} fontWeight='bold'>Compras realizadas:</Title>
             <Table
                 head={['Comprador', 'Detalhes']}

@@ -50,7 +50,7 @@ export default function Table({ head, data }){
             </thead>
             <tbody>
                 {
-                    data.map((array, rowIndex) => (
+                    data?.map((array, rowIndex) => (
                         <tr key={rowIndex}>
                             {
                                 array.map((item, columnIndex) => (
