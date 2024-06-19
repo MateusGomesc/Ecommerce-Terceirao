@@ -22,7 +22,7 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 export default function App() {
 
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState(true)
 
   //verify admin user
   useEffect(() => {

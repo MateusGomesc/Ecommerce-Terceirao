@@ -77,7 +77,7 @@ export default function EventResume(){
                 head={['Produto', 'Quantidade']}
                 data={products}
             />
-            <Price>Total: {formatPrice(dataOrder?.order?.price)}</Price>
+            <Price>Total: {formatPrice(dataOrder?.order?.price ? dataOrder?.order?.price : 0)}</Price>
             <PayMethod>Método de pagamento: {dataOrder?.order?.payMethod}</PayMethod>
         </>
     )

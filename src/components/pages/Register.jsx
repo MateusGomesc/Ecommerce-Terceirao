@@ -106,7 +106,7 @@ export default function Register(){
                             />
                             <div>
                                 <ButtonBackground
-                                    text='Registar'
+                                    text='Registrar'
                                     type='submit'
                                 />
                             </div>

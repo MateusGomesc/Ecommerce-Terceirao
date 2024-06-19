@@ -130,11 +130,12 @@ export default function EventShop(){
 
     const navigate = useNavigate()
 
-    const handleOnSubmit = () => {
+    const handleOnSubmit = (event) => {
+        event.preventDefault()
         const acessToken = sessionStorage.getItem('acessToken')
-        const price = JSON.parse(localStorage.getItem('cart')).price
+        const cartData = JSON.parse(localStorage.getItem('cart'))
 
-        if(!price){
+        if(!cartData.price){
             return 1
         }
         else if(!acessToken){
@@ -144,7 +145,14 @@ export default function EventShop(){
             navigate('/pagamento')
         }
         else{
-            navigate('/resumo')
+            cartData.products = JSON.stringify(cartData.products)
+
+            axios.post(process.env.REACT_APP_BASE_URL + '/orders/cash', cartData).then((response) => {
+                if(!response.data.error){
+                    localStorage.removeItem('cart')
+                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
+                }
+            })
         }
     }
 
@@ -152,7 +160,7 @@ export default function EventShop(){
         <>
             <Banner 
                 src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')}
-                alt={'Banner' + data?.event?.name}
+                alt={'Banner ' + data?.event?.name}
             />
             <Title
                 fontWeight='bold'

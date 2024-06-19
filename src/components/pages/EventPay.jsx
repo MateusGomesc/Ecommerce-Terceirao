@@ -83,13 +83,14 @@ export default function EventPay(){
             formData.append('event', cartData.event)
             formData.append('price', cartData.price)
             formData.append('payMethod', cartData.payMethod)
+            formData.append('terms', cartData.terms)
             formData.append('products', JSON.stringify(cartData.products))
             formData.append('proof', event.target.proof.files[0])
 
-            axios.post(process.env.REACT_APP_BASE_URL + '/orders', formData).then((response) => {
+            axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
                 if(!response.data.error){
                     localStorage.removeItem('cart')
-                    navigate('/resumo/' + cartData.event)
+                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
                 }
             })
         }
