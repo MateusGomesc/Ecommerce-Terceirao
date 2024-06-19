@@ -62,12 +62,12 @@ export default function App() {
                 <AdminEvents/>
               </ProtectedRoute>
             }></Route>
-            <Route exact path='/compras' element={
+            <Route exact path='/compras/:id' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminEventShops/>
               </ProtectedRoute>
             }></Route>
-            <Route exact path='/detalhes' element={
+            <Route exact path='/detalhes/:eventId/:userId' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminShop/>
               </ProtectedRoute>

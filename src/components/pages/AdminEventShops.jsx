@@ -1,32 +1,52 @@
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
 
-import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
 import Table from '../layout/Table'
 import { Banner } from '../layout/Banner.style'
 
 
-const LinkStyle = {
-    textDecoration: "underline",
-    cursor: "pointer",
-    color: "inherit"
-}
+const LinkStyled = styled(Link)`
+    text-decoration: underline;
+    cursor: pointer;
+    color: inherit;
+`
 
 export default function AdminEventShops(){
+    const { id } = useParams()
+    const [dataEvent, setDataEvent] = useState({})
+    const [tableData, setTableData] = useState([])
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+            setDataEvent(response.data)
+
+            axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
+                const data = response.data
+
+                const tableData = data.map((order) => [
+                    order.username,
+                    (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
+                ])
+
+                setTableData(tableData)
+            })
+        })
+    }, [])
+
+    console.log('data: ' + tableData)
+
     return(
         <>
-            <Banner src={Personagens} alt='Banner Trote de personagens'/>
-            <Title fontSize={24}>Trote de personagens</Title>
+            <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image} alt='Banner Trote de personagens'/>
+            <Title fontSize={24}>{dataEvent?.event?.name}</Title>
             <Title fontSize={20} fontWeight='bold'>Compras realizadas:</Title>
             <Table
                 head={['Comprador', 'Detalhes']}
-                data={[
-                    ['Mateus Gomes Costa', (<Link to='/detalhes' style={LinkStyle}>Detalhes</Link>)],
-                    ['João da Silva', (<Link to='/detalhes' style={LinkStyle}>Detalhes</Link>)]
-                ]}
+                data={tableData}
             />
         </>
     )
 }
-
-/*Trocar Ancoras por links do react */
