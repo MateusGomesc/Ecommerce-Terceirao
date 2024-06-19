@@ -18,8 +18,8 @@ const ModalContent = styled.div`
     background-color: white;
     padding: 20px;
     border-radius: 4px;
-    width: 500px;
-    max-width: 100%;
+    width: 250;
+    max-width: 500px;
 `;
 
 const ModalHeader = styled.div`

@@ -9,7 +9,6 @@ import Terms from './components/pages/Terms'
 import Home from './components/pages/Home'
 import { ContainerDefault } from './components/layout/ContainerDefault.style';
 import Register from './components/pages/Register';
-import ChangeUserInformation from './components/pages/ChangeUserInformation';
 import AdminEvents from './components/pages/AdminEvents';
 import AdminEventShops from './components/pages/AdminEventShops';
 import AdminShop from './components/pages/AdminShop';
@@ -56,7 +55,6 @@ export default function App() {
             <Route exact path='/termos' element={<Terms/>}></Route>
             <Route exact path='/' element={<Home/>}></Route>
             <Route exact path='/registrar' element={<Register/>}></Route>
-            <Route exact path='/informacoes' element={<ChangeUserInformation/>}></Route>
             <Route exact path='/admin' element={
               <ProtectedRoute isAuth={isAuth}>
                 <AdminEvents/>
@@ -73,7 +71,7 @@ export default function App() {
               </ProtectedRoute>
             }></Route>
             <Route exact path='/formulario/:type/:id' element={
-              <ProtectedRoute isAuth={true}>
+              <ProtectedRoute isAuth={isAuth}>
                 <AdminRegisterEvent/>
               </ProtectedRoute>
             }></Route>

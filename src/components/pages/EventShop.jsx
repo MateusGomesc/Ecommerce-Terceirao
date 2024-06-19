@@ -112,23 +112,31 @@ export default function EventShop(){
         localStorage.setItem('cart', JSON.stringify(cartModel))
     }, [id])
 
+    const navigate = useNavigate()
+    
     const updateLocalStorage = () => {
-        // Recebe json do carrinho atual
-        let cartData = JSON.parse(localStorage.getItem('cart'))
+        const acessToken = sessionStorage.getItem('acessToken')
 
-        // Atualiza valores no json
-        cartData.payMethod = document.getElementById('payMethod').value
-        cartData.terms = checkbox
-
-        // Envia valores atualizados
-        localStorage.setItem('cart', JSON.stringify(cartData))
+        if(acessToken){
+            // Recebe json do carrinho atual
+            let cartData = JSON.parse(localStorage.getItem('cart'))
+    
+            // Atualiza valores no json
+            cartData.payMethod = document.getElementById('payMethod').value
+            cartData.terms = checkbox
+    
+            // Envia valores atualizados
+            localStorage.setItem('cart', JSON.stringify(cartData))
+        }
+        else{
+            navigate('/login')
+        }
     }
 
     const handleClickCheckbox = () => {
         setCheckbox(checkbox === 'checked' ? 'unchecked' : 'checked')
     }
 
-    const navigate = useNavigate()
 
     const handleOnSubmit = (event) => {
         event.preventDefault()

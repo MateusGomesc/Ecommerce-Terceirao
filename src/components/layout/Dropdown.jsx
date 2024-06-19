@@ -79,8 +79,7 @@ export default function Dropdown() {
         }
         else{
             setOptions([
-                ['Minhas compras', '/'],
-                ['Minhas informações', '/informacoes']
+                ['Minhas compras', '/seusEventos'],
             ])
         }
     }

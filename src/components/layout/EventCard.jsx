@@ -115,14 +115,18 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
 
     const verifyShop = () => {
         const acessToken = sessionStorage.getItem('acessToken')
-        const decodedToken = jwtDecode(acessToken)
 
-        axios.get(process.env.REACT_APP_BASE_URL + '/orders/hasShop/' + EventId + '/' + decodedToken.id).then((response) => {
-            if(!response.data.status){
-                isShop(!shop)
-                navigate('/', { state: { message: response.data.message }})
-            }
-        })
+        if(acessToken){
+            const decodedToken = jwtDecode(acessToken)
+    
+    
+            axios.get(process.env.REACT_APP_BASE_URL + '/orders/hasShop/' + EventId + '/' + decodedToken.id).then((response) => {
+                if(!response.data.status){
+                    isShop(!shop)
+                    navigate('/', { state: { message: response.data.message }})
+                }
+            })
+        }
     }
 
     return(
