@@ -24,6 +24,11 @@ const EventCardContainer = styled.div`
     margin-bottom: 32px;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 
 export default function AdminEvents(){
     const [data, setData] = useState([])
@@ -56,10 +61,11 @@ export default function AdminEvents(){
     
     return(
         // excluir e imagem
-        <>
+        <Container>
             <Title
                 fontWeight='bold'
                 fontSize={24}
+                textAlign='center'
             >
                 Eventos cadastrados:
             </Title>
@@ -91,6 +97,6 @@ export default function AdminEvents(){
                     ))
                 }
             </EventCardContainer>
-        </>
+        </Container>
     )
 }

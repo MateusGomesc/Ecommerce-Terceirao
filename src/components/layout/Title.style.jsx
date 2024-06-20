@@ -6,9 +6,5 @@ export const Title = styled.h1`
     background-image: var(--gradient);
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-align: center;
-
-    @media(min-width: 1024px){
-        font-size: 32px;
-    }
+    text-align: ${(props) => props.textAlign ? props.textAlign : 'start'};
 `

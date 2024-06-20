@@ -12,6 +12,11 @@ import Count from "../layout/Count";
 import Checkbox from "../forms/Checkbox";
 import ButtonNoBackground from "../layout/ButtonNoBackground";
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 const Price = styled.p`
     font-family: inherit;
     font-weight: 300;
@@ -170,39 +175,42 @@ export default function EventShop(){
                 src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')}
                 alt={'Banner ' + data?.event?.name}
             />
-            <Title
-                fontWeight='bold'
-                fontSize={24}
-            >
-                {data?.event?.name}
-            </Title>
-            <Table
-                head={['Produto', 'Preço', 'Quantidade']}
-                data={products}
-            />
-            <Price id='price'>Total: R$ 0,00</Price>
-            <form onSubmit={handleOnSubmit} width='100%'>
-                <SelectContainer
-                    name='payMethod'
-                    id='payMethod'
+            <Container>
+                <Title
+                    fontWeight='bold'
+                    fontSize={24}
+                    textAlign='center'
                 >
-                    <option value="" disabled defaultChecked>Método de pagamento</option>
-                    <option value="Dinheiro">Dinheiro</option>
-                    <option value="PIX">PIX</option>
-                </SelectContainer>
-                <TermsContainer>
-                    <Checkbox handleOnChange={handleClickCheckbox}/>
-                    <Text>TERMOS DE USO - Você precisa aceitar os sequintes termos de uso uso para efetuar a compra: <LinkStyled to='/termos'>CLIQUE AQUI</LinkStyled></Text>
-                </TermsContainer>
-                <Center>
-                    <ButtonNoBackground 
-                        text='Comprar'
-                        type='submit'
-                        fontSize={16}
-                        handleClick={updateLocalStorage}
-                    />
-                </Center>
-            </form>
+                    {data?.event?.name}
+                </Title>
+                <Table
+                    head={['Produto', 'Preço', 'Quantidade']}
+                    data={products}
+                />
+                <Price id='price'>Total: R$ 0,00</Price>
+                <form onSubmit={handleOnSubmit} width='100%'>
+                    <SelectContainer
+                        name='payMethod'
+                        id='payMethod'
+                    >
+                        <option value="" disabled defaultChecked>Método de pagamento</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="PIX">PIX</option>
+                    </SelectContainer>
+                    <TermsContainer>
+                        <Checkbox handleOnChange={handleClickCheckbox}/>
+                        <Text>TERMOS DE USO - Você precisa aceitar os sequintes termos de uso uso para efetuar a compra: <LinkStyled to='/termos'>CLIQUE AQUI</LinkStyled></Text>
+                    </TermsContainer>
+                    <Center>
+                        <ButtonNoBackground 
+                            text='Comprar'
+                            type='submit'
+                            fontSize={16}
+                            handleClick={updateLocalStorage}
+                        />
+                    </Center>
+                </form>
+            </Container>
         </>
     )
 }

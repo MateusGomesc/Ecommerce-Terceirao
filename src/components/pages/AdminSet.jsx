@@ -23,6 +23,11 @@ const ButtonContainer = styled.div`
     margin-top: 8px;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 export default function AdminSet(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
@@ -60,10 +65,11 @@ export default function AdminSet(){
     }
 
     return(
-        <>
+        <Container>
             <Title
                 fontWeight='bold'
                 fontSize={24}
+                textAlign='center'
             >
                 Cadastrar Administrador:
             </Title>
@@ -100,6 +106,6 @@ export default function AdminSet(){
                     )
                 }
             </Formik>
-        </>
+        </Container>
     )
 }

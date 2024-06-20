@@ -34,6 +34,11 @@ const PayMethod = styled.p`
     width: 100%;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 export default function EventResume(){
     const [dataOrder, setDataOrder] = useState({})
     const [dataEvent, setDataEvent] = useState({})
@@ -65,20 +70,23 @@ export default function EventResume(){
     return(
         <>
             <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + dataEvent?.event?.name}/>
-            <Title
-                fontWeight='bold'
-                fontSize={24}
-            >
-                {dataEvent?.event?.name}
-            </Title>
-            <Text>Compra finalizada!</Text>
-            <Text>Resumo da sua compra:</Text>
-            <Table
-                head={['Produto', 'Quantidade']}
-                data={products}
-            />
-            <Price>Total: {formatPrice(dataOrder?.order?.price ? dataOrder?.order?.price : 0)}</Price>
-            <PayMethod>Método de pagamento: {dataOrder?.order?.payMethod}</PayMethod>
+            <Container>
+                <Title
+                    fontWeight='bold'
+                    fontSize={24}
+                    textAlign='center'
+                >
+                    {dataEvent?.event?.name}
+                </Title>
+                <Text>Compra finalizada!</Text>
+                <Text>Resumo da sua compra:</Text>
+                <Table
+                    head={['Produto', 'Quantidade']}
+                    data={products}
+                />
+                <Price>Total: {formatPrice(dataOrder?.order?.price ? dataOrder?.order?.price : 0)}</Price>
+                <PayMethod>Método de pagamento: {dataOrder?.order?.payMethod}</PayMethod>
+            </Container>
         </>
     )
 }

@@ -21,6 +21,10 @@ const DropdownButton = styled.button`
     text-transform: uppercase;
     font-size: 12px;
     padding: 4px 16px 4px 16px;
+
+    & img{
+      filter: invert(100%);
+    }
 `;
 
 const DropdownMenu = styled.ul`

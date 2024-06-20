@@ -27,6 +27,11 @@ const EventCardContainer = styled.div`
     margin-bottom: 32px;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 
 export default function UserEvents(){
     const [data, setData] = useState([])
@@ -61,10 +66,11 @@ export default function UserEvents(){
     }
 
     return(
-        <>
+        <Container>
             <Title
                 fontWeight='bold'
                 fontSize={24}
+                textAlign='center'
             >
                 Seus eventos:
             </Title>
@@ -87,6 +93,6 @@ export default function UserEvents(){
                 ))
             }
             </EventCardContainer>
-        </>
+        </Container>
     )
 }

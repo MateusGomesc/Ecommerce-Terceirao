@@ -31,6 +31,11 @@ const EventCardContainer = styled.div`
     }
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 
 export default function Home(){
     const [data, setData] = useState([])
@@ -72,9 +77,9 @@ export default function Home(){
     }
 
     return(
-        <>
+        <Container>
             <Text>Seja bem-vindo (a) ao sistema de vendas do <Regular>TERCEIRÃO INFORMÁTICA 2024</Regular> 👋</Text>
-            <Title fontWeight='bold' fontSize={24}>Escolha o evento:</Title>
+            <Title fontWeight='bold' fontSize={24} textAlign='center'>Escolha o evento:</Title>
             {
                 alert && <Alert type={alertType}>{alertMessage}</Alert>
             }
@@ -94,6 +99,6 @@ export default function Home(){
                     ))
                 }
             </EventCardContainer>
-        </>
+        </Container>
     )
 }

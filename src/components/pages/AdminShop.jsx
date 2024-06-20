@@ -18,6 +18,14 @@ const Information = styled.p`
 
 const Image = styled.img`
     margin-top: 20px;
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+`
+
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
 `
 
 export default function AdminShop(){
@@ -48,10 +56,11 @@ export default function AdminShop(){
     }, [])
 
     return(
-        <>
+        <Container>
             <Title
                 fontWeight='bold'
                 fontSize={24}
+                textAlign='center'
             >
                 {order?.username}
             </Title>
@@ -64,6 +73,6 @@ export default function AdminShop(){
             {
                 order?.proof && <Image src={process.env.REACT_APP_BASE_URL + '/' + order?.proof} alt={'Comprovante de pagamento' + order?.username}/>
             }
-        </>
+        </Container>
     )
 }

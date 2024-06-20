@@ -55,6 +55,12 @@ const ButtonContainer = styled.div`
     text-align: center;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+    text-align: center;
+`
+
 export default function EventPay(){
     const [copy, setCopy] = useState(false)
     const [data, setData] = useState({})
@@ -99,33 +105,36 @@ export default function EventPay(){
     return(
         <>
             <Banner src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + data?.event?.name}/>
-            <Title
-                fontWeight='bold'
-                fontSize={24}
-            >
-                {data?.event?.name}
-            </Title>
-            <Text>Faça o pagamento via <Bold>pix copia e cola</Bold> ou pelo <Bold>qrcode</Bold> e anexe o comprovante no botão abaixo:</Text>
-            <Price>Total: {formatPrice(cartData.price)}</Price>
-            <img src={QRcode} alt="QRcode para pagamento"/>
-            <CopyPastPay id="copy" onClick={handleCopy}>{process.env.REACT_APP_LINK_PIX}</CopyPastPay>
-            <SubText
-                color={copy ? 'var(--success)' : 'inherit'}
-            >
-                {copy ? 'Texto copiado!' : 'Clique para copiar o texto!'}
-            </SubText>
-            <form onSubmit={handleSubmit}>
-                <InputFile
-                    text='Anexar comprovante'
-                    name='proof'
-                />
-                <ButtonContainer>
-                    <ButtonNoBackground 
-                        text='Avançar'
-                        type='submit'
+            <Container>
+                <Title
+                    fontWeight='bold'
+                    fontSize={24}
+                    textAlign='center'
+                >
+                    {data?.event?.name}
+                </Title>
+                <Text>Faça o pagamento via <Bold>pix copia e cola</Bold> ou pelo <Bold>qrcode</Bold> e anexe o comprovante no botão abaixo:</Text>
+                <Price>Total: {formatPrice(cartData.price)}</Price>
+                <img src={QRcode} alt="QRcode para pagamento"/>
+                <CopyPastPay id="copy" onClick={handleCopy}>{process.env.REACT_APP_LINK_PIX}</CopyPastPay>
+                <SubText
+                    color={copy ? 'var(--success)' : 'inherit'}
+                >
+                    {copy ? 'Texto copiado!' : 'Clique para copiar o texto!'}
+                </SubText>
+                <form onSubmit={handleSubmit}>
+                    <InputFile
+                        text='Anexar comprovante'
+                        name='proof'
                     />
-                </ButtonContainer>
-            </form>
+                    <ButtonContainer>
+                        <ButtonNoBackground 
+                            text='Avançar'
+                            type='submit'
+                        />
+                    </ButtonContainer>
+                </form>
+            </Container>
         </>
     )
 }

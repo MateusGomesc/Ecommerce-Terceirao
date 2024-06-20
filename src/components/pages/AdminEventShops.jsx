@@ -19,6 +19,11 @@ const Separator = styled.div`
     width: 100%;
 `
 
+const Container = styled.div`
+    width: 100%;
+    max-width: 620px;
+`
+
 export default function AdminEventShops(){
     const { id } = useParams()
     const [dataEvent, setDataEvent] = useState({})
@@ -44,13 +49,15 @@ export default function AdminEventShops(){
     return(
         <>
             <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image} alt='Banner Trote de personagens'/>
-            <Title fontSize={24}>{dataEvent?.event?.name}</Title>
-            <Separator/>
-            <Title fontSize={20} fontWeight='bold'>Compras realizadas:</Title>
-            <Table
-                head={['Comprador', 'Detalhes']}
-                data={tableData}
-            />
+            <Container>
+                <Title fontSize={24} textAlign='center'>{dataEvent?.event?.name}</Title>
+                <Separator/>
+                <Title fontSize={20} fontWeight='bold'  textAlign='center'>Compras realizadas:</Title>
+                <Table
+                    head={['Comprador', 'Detalhes']}
+                    data={tableData}
+                />
+            </Container>
         </>
     )
 }
