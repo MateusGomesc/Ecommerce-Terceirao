@@ -55,6 +55,7 @@ const DropdownItem = styled.li`
 export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState(['Minhas compras', '/seusEventos'])
+  const [acessToken, setAcessToken] = useState(sessionStorage.getItem('acessToken'))
   const navigate = useNavigate()
 
   const toggleDropdown = () => {
@@ -88,7 +89,7 @@ export default function Dropdown() {
       ])
     }
 
-  }, [])
+  }, [acessToken, navigate])
 
   const exit = () => {
     sessionStorage.removeItem('acessToken')

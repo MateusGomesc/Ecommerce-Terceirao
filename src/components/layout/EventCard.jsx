@@ -69,7 +69,7 @@ const ButtonContainer = styled.div`
 `
 
 
-export default function EventCard({ EventId, EventName, EventDate, EventImage, EventLocation, IsAdmin, IsOpen, IsShop=true }){
+export default function EventCard({ EventId, EventName, EventDate, EventImage, EventLocation, IsAdmin, IsOpen, IsShop=true, OrderId }){
     const [Open, setOpen] = useState(IsOpen)
     const [shop, isShop] = useState(IsShop)
     const [alert, setAlert] = useState(false)
@@ -122,7 +122,7 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
     
             axios.get(process.env.REACT_APP_BASE_URL + '/orders/hasShop/' + EventId + '/' + decodedToken.id).then((response) => {
                 if(!response.data.status){
-                    isShop(!shop)
+                    isShop(false)
                     navigate('/', { state: { message: response.data.message }})
                 }
             })
@@ -146,9 +146,9 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
                     <SubTitle>{EventLocation}</SubTitle>
                 </Info>
                 <Link 
-                    to={ IsAdmin ? '/compras/' + EventId : isShop ? '/comprar/' + EventId : '/resumo/' + EventId}
+                    to={ IsAdmin ? '/compras/' + EventId : (shop ? '/comprar/' + EventId : '/resumo/' + EventId + '/' + OrderId)}
                     style={LinkStyle}
-                    onClick={!IsAdmin && verifyShop}
+                    onClick={!IsAdmin && IsShop && verifyShop}
                 >
                     <Text>
                         {EventName}
