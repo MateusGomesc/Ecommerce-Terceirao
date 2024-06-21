@@ -86,6 +86,9 @@ export default function EventResume(){
                 />
                 <Price>Total: {formatPrice(dataOrder?.order?.price ? dataOrder?.order?.price : 0)}</Price>
                 <PayMethod>Método de pagamento: {dataOrder?.order?.payMethod}</PayMethod>
+                {
+                    dataOrder?.order?.payMethod === 'Dinheiro' && <Text>Realize o pagamento em dinheiro na entrega do produto</Text>
+                }
             </Container>
         </>
     )

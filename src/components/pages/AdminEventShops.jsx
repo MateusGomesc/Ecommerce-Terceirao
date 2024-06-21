@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Title } from '../layout/Title.style'
 import Table from '../layout/Table'
 import { Banner } from '../layout/Banner.style'
+import Checkbox from '../forms/Checkbox'
 
 
 const LinkStyled = styled(Link)`
@@ -35,13 +36,19 @@ export default function AdminEventShops(){
 
             axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
                 const data = response.data
-
-                const tableData = data.map((order) => [
-                    order.username,
-                    (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
-                ])
-
-                setTableData(tableData)
+                
+                if(data.error){
+                    setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
+                }
+                else{
+                    const tableData = data.map((order) => [
+                        (<Checkbox/>),
+                        order.username,
+                        (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
+                    ])
+    
+                    setTableData(tableData)
+                }
             })
         })
     }, [])
@@ -54,7 +61,7 @@ export default function AdminEventShops(){
                 <Separator/>
                 <Title fontSize={20} fontWeight='bold'  textAlign='center'>Compras realizadas:</Title>
                 <Table
-                    head={['Comprador', 'Detalhes']}
+                    head={['Status' ,'Comprador', 'Detalhes']}
                     data={tableData}
                 />
             </Container>

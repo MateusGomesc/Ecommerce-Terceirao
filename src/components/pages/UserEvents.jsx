@@ -79,6 +79,7 @@ export default function UserEvents(){
             </Text>
             <EventCardContainer>
             {
+                !data.length ? 'Nenhuma compra encontrada' :
                 data?.map((eventOrder) => (
                     <EventCard
                         EventId={eventOrder.event.id} 

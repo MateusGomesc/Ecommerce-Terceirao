@@ -34,6 +34,9 @@ const EventCardContainer = styled.div`
 const Container = styled.div`
     width: 100%;
     max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `
 
 
@@ -85,7 +88,7 @@ export default function Home(){
             }
             <EventCardContainer>
                 {
-                    data.lenght === 0 ? 'Nenhum evento encontrado' :
+                    !data.length ? 'Nenhum evento encontrado' :
                     data.map((event) => (
                         <EventCard 
                             EventId={event.id}
