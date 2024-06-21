@@ -5,7 +5,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 import { Banner } from "../layout/Banner.style";
-import Personagens from '../../img/personagens.svg'
 import { Title } from '../layout/Title.style'
 import Table from "../layout/Table";
 
