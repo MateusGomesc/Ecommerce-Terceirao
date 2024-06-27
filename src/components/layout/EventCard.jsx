@@ -131,7 +131,7 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
 
     return(
         <CardContainer>
-            <Image src={process.env.REACT_APP_BASE_URL + '/' + EventImage.replace(/\\/g, '/')} alt={`Banner ${EventName}`} />
+            <Image src={EventImage} alt={`Banner ${EventName}`} />
             {
                 alert && <Alert type={alertType}>{alertMessage}</Alert>
             }

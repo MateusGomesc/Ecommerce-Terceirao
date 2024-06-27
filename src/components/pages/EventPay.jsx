@@ -104,7 +104,7 @@ export default function EventPay(){
 
     return(
         <>
-            <Banner src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + data?.event?.name}/>
+            <Banner src={data?.event?.image} alt={'Banner' + data?.event?.name}/>
             <Container>
                 <Title
                     fontWeight='bold'

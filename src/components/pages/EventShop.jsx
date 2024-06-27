@@ -172,7 +172,7 @@ export default function EventShop(){
     return(
         <>
             <Banner 
-                src={process.env.REACT_APP_BASE_URL + '/' + data?.event?.image?.replace(/\\/g, '/')}
+                src={data?.event?.image}
                 alt={'Banner ' + data?.event?.name}
             />
             <Container>

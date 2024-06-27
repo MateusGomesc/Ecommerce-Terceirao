@@ -68,7 +68,7 @@ export default function EventResume(){
 
     return(
         <>
-            <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image?.replace(/\\/g, '/')} alt={'Banner' + dataEvent?.event?.name}/>
+            <Banner src={dataEvent?.event?.image} alt={'Banner' + dataEvent?.event?.name}/>
             <Container>
                 <Title
                     fontWeight='bold'
