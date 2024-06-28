@@ -131,7 +131,7 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
 
     return(
         <CardContainer>
-            <Image src={EventImage} alt={`Banner ${EventName}`} />
+            <Image src={'http://res.cloudinary.com/dtqohmifx/raw/upload/v1719512348/xpfmrokk5sw9pipzlnde'} alt={`Banner ${EventName}`} />
             {
                 alert && <Alert type={alertType}>{alertMessage}</Alert>
             }
