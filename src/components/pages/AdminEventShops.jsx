@@ -55,7 +55,7 @@ export default function AdminEventShops(){
 
     return(
         <>
-            <Banner src={process.env.REACT_APP_BASE_URL + '/' + dataEvent?.event?.image} alt='Banner Trote de personagens'/>
+            <Banner src={dataEvent?.event?.image} alt={`Banner ${dataEvent?.event?.name}`}/>
             <Container>
                 <Title fontSize={24} textAlign='center'>{dataEvent?.event?.name}</Title>
                 <Separator/>

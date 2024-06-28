@@ -71,7 +71,7 @@ export default function AdminShop(){
             <Information>Total: {formatPrice(order?.price)}</Information>
             <Information>Método de pagamento: {order?.payMethod}</Information>
             {
-                order?.proof && <Image src={process.env.REACT_APP_BASE_URL + '/' + order?.proof} alt={'Comprovante de pagamento' + order?.username}/>
+                order?.proof && <Image src={order?.proof} alt={'Comprovante de pagamento ' + order?.username}/>
             }
         </Container>
     )
