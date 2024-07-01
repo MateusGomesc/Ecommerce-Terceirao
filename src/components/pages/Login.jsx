@@ -10,6 +10,7 @@ import ButtonBackground from "../layout/ButtonBackground"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import Input from "../forms/Input"
 import { Alert } from "../layout/Alert.style"
+import Loading from "../layout/Loading"
 
 const Container = styled.div`
     box-shadow: -2px -2px 16px var(--shadow),
@@ -70,6 +71,7 @@ export default function Login(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("error")
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -94,21 +96,31 @@ export default function Login(){
     }
 
     const handleLogin = (values, { setSubmitting }) => {
-        axios.post(process.env.REACT_APP_BASE_URL + "/auth/login", values).then((response) => {
-            if(response.data.error){
-                setAlert(true)
-                setAlertMessage(response.data.error)
-            }
-            else{
-                sessionStorage.setItem('acessToken', response.data)
-                navigate('/')
-            }
-        })
+        setLoading(true)
+        try{
+            axios.post(process.env.REACT_APP_BASE_URL + "/auth/login", values).then((response) => {
+                if(response.data.error){
+                    setAlert(true)
+                    setAlertMessage(response.data.error)
+                }
+                else{
+                    sessionStorage.setItem('acessToken', response.data)
+                    navigate('/')
+                }
+            })
+        }
+        finally{
+            setLoading(false)
+        }
+
         setSubmitting(false)
     }
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Container>
                 <ImageContainer>
                     <img src={LogoWithText} alt="Logo terceirão Informática" />

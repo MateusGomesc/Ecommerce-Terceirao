@@ -12,6 +12,7 @@ import Select from "../forms/Select";
 import ButtonBackground from "../layout/ButtonBackground";
 import InputFile from '../forms/InputFile'
 import { Alert } from '../layout/Alert.style'
+import Loading from "../layout/Loading";
 
 const ProductArea = styled.div`
     display: flex;
@@ -41,6 +42,7 @@ export default function AdminRegisterEvent(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("error")
+    const [loading, setLoading] = useState(false)
 
     // Formik configure
 
@@ -76,21 +78,27 @@ export default function AdminRegisterEvent(){
         formData.append('status', values.status)
         formData.append('location', values.location)
 
-        axios.post(process.env.REACT_APP_BASE_URL + '/events/register', formData).then((response) => {
-            setAlert(true)
-            setAlertMessage(response.data)
-            
-            if(response.status === 200){
-                setAlertType('success')
-                resetForm()
-                window.scrollBy({
-                    top: -window.scrollY,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-                  
-            }
-        })
+        setLoading(true)
+        try{
+            axios.post(process.env.REACT_APP_BASE_URL + '/events/register', formData).then((response) => {
+                setAlert(true)
+                setAlertMessage(response.data)
+                
+                if(response.status === 200){
+                    setAlertType('success')
+                    resetForm()
+                    window.scrollBy({
+                        top: -window.scrollY,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                      
+                }
+            })
+        }
+        finally{
+            setLoading(false)
+        }
 
         isSubmitting(false)
     }
@@ -104,41 +112,56 @@ export default function AdminRegisterEvent(){
         formData.append('status', values.status)
         formData.append('location', values.location)
 
-        axios.patch(process.env.REACT_APP_BASE_URL + '/events/modify/' + id, formData).then((response) => {
-            setAlert(true)
-            setAlertMessage(response.data)
-            
-            if(response.status === 200){
-                setAlertType('success')
-                resetForm()
-                window.scrollBy({
-                    top: -window.scrollY,
-                    left: 0,
-                    behavior: 'smooth'
-                });                  
-            }
-        })
+        setLoading(true)
+        try{
+            axios.patch(process.env.REACT_APP_BASE_URL + '/events/modify/' + id, formData).then((response) => {
+                setAlert(true)
+                setAlertMessage(response.data)
+                
+                if(response.status === 200){
+                    setAlertType('success')
+                    resetForm()
+                    window.scrollBy({
+                        top: -window.scrollY,
+                        left: 0,
+                        behavior: 'smooth'
+                    });                  
+                }
+            })
+        }
+        finally{
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
         if(type === 'editar'){
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-                let data = response.data
-                setData({
-                    id: data.event.id,
-                    name: data.event.name,
-                    location: data.event.location,
-                    image: data.event.image,
-                    date: data.event.date,
-                    status: data.event.status === 0 ? 'Fechado' : 'Aberto',
-                    products: data.products
+            setLoading(true)
+            try{
+                axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+                    let data = response.data
+                    setData({
+                        id: data.event.id,
+                        name: data.event.name,
+                        location: data.event.location,
+                        image: data.event.image,
+                        date: data.event.date,
+                        status: data.event.status === 0 ? 'Fechado' : 'Aberto',
+                        products: data.products
+                    })
                 })
-            })
+            }
+            finally{
+                setLoading(false)
+            }
         }
     }, [])
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Title
                 fontWeight='bold'
                 fontSize={24}

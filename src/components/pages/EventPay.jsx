@@ -9,6 +9,7 @@ import { Title } from "../layout/Title.style"
 import InputFile from "../forms/InputFile"
 import ButtonNoBackground from "../layout/ButtonNoBackground"
 import QRcode from '../../img/qrcode.svg'
+import Loading from "../layout/Loading"
 
 const Text = styled.p`
     font-family: inherit;
@@ -64,13 +65,20 @@ const Container = styled.div`
 export default function EventPay(){
     const [copy, setCopy] = useState(false)
     const [data, setData] = useState({})
+    const [loading, setLoading] = useState(false)
     const cartData = JSON.parse(localStorage.getItem('cart'))
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + cartData.event).then((response) => {
-            setData(response.data)
-        })
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + cartData.event).then((response) => {
+                setData(response.data)
+            })
+        }
+        finally{
+            setLoading(false)
+        }
     }, [])
 
     const handleCopy = () => {
@@ -93,17 +101,26 @@ export default function EventPay(){
             formData.append('products', JSON.stringify(cartData.products))
             formData.append('proof', event.target.proof.files[0])
 
-            axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
-                if(!response.data.error){
-                    localStorage.removeItem('cart')
-                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
-                }
-            })
+            setLoading(true)
+            try{
+                axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
+                    if(!response.data.error){
+                        localStorage.removeItem('cart')
+                        navigate('/resumo/' + cartData.event + '/' + response.data.id)
+                    }
+                })
+            }
+            finally{
+                setLoading(false)
+            }
         }
     }
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Banner src={data?.event?.image} alt={'Banner' + data?.event?.name}/>
             <Container>
                 <Title

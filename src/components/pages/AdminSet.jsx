@@ -8,6 +8,7 @@ import Input from "../forms/Input"
 import ButtonBackground from "../layout/ButtonBackground"
 import { Title } from "../layout/Title.style"
 import { Alert } from "../layout/Alert.style"
+import Loading from "../layout/Loading"
 
 const FormStyled = styled(Form)`
     width: 100%;
@@ -32,6 +33,7 @@ export default function AdminSet(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("error")
+    const [loading, setLoading] = useState(false)
 
     // Configure Formik
 
@@ -48,24 +50,33 @@ export default function AdminSet(){
     const handleAdmin = (values, { setSubmitting }) => {
         const acessToken = sessionStorage.getItem('acessToken')
         
-        axios.post(process.env.REACT_APP_BASE_URL + '/auth/setAdmin', { ...values, acessToken}).then((response) => {
-            setAlert(true)
-            
-            if(response.data.error){
-                setAlertMessage(response.data.error)
-                setAlertType('error')
-            }
-            else{
-                setAlertMessage(response.data)
-                setAlertType('success')
-            }
-        })
+        setLoading(true)
+        try{
+            axios.post(process.env.REACT_APP_BASE_URL + '/auth/setAdmin', { ...values, acessToken}).then((response) => {
+                setAlert(true)
+                
+                if(response.data.error){
+                    setAlertMessage(response.data.error)
+                    setAlertType('error')
+                }
+                else{
+                    setAlertMessage(response.data)
+                    setAlertType('success')
+                }
+            })
+        }
+        finally{
+            setLoading(false)
+        }
 
         setSubmitting(false)
     }
 
     return(
         <Container>
+            {
+                loading && <Loading/>
+            }
             <Title
                 fontWeight='bold'
                 fontSize={24}

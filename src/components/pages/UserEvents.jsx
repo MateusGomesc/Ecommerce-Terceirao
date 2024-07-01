@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { Title } from "../layout/Title.style";
 import EventCard from "../layout/EventCard";
+import Loading from "../layout/Loading";
 
 const Text = styled.p`
     font-family: inherit;
@@ -35,14 +36,22 @@ const Container = styled.div`
 
 export default function UserEvents(){
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
     
     useEffect(() => {
         const acessToken = sessionStorage.getItem('acessToken')
         const decodedToken = jwtDecode(acessToken)
     
-        axios.get(process.env.REACT_APP_BASE_URL + '/orders/user/' + decodedToken.id).then((response) => {
-            setData(response.data)
-        })
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/orders/user/' + decodedToken.id).then((response) => {
+                setData(response.data)
+            })
+        }
+        finally{
+            setLoading(false)
+        }
+
     }, [])
 
     const getDate = (date) => {
@@ -67,6 +76,9 @@ export default function UserEvents(){
 
     return(
         <Container>
+            {
+                loading && <Loading/>
+            }
             <Title
                 fontWeight='bold'
                 fontSize={24}

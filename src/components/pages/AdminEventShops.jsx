@@ -7,6 +7,7 @@ import { Title } from '../layout/Title.style'
 import Table from '../layout/Table'
 import { Banner } from '../layout/Banner.style'
 import Checkbox from '../forms/Checkbox'
+import Loading from '../layout/Loading'
 
 
 const LinkStyled = styled(Link)`
@@ -29,32 +30,42 @@ export default function AdminEventShops(){
     const { id } = useParams()
     const [dataEvent, setDataEvent] = useState({})
     const [tableData, setTableData] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-            setDataEvent(response.data)
-
-            axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
-                const data = response.data
-                
-                if(data.error){
-                    setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
-                }
-                else{
-                    const tableData = data.map((order) => [
-                        (<Checkbox/>),
-                        order.username,
-                        (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
-                    ])
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+                setDataEvent(response.data)
     
-                    setTableData(tableData)
-                }
+                axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
+                    const data = response.data
+                    
+                    if(data.error){
+                        setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
+                    }
+                    else{
+                        const tableData = data.map((order) => [
+                            (<Checkbox/>),
+                            order.username,
+                            (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
+                        ])
+        
+                        setTableData(tableData)
+                    }
+                })
             })
-        })
+        }
+        finally{
+            setLoading(false)
+        }
     }, [])
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Banner src={dataEvent?.event?.image} alt={`Banner ${dataEvent?.event?.name}`}/>
             <Container>
                 <Title fontSize={24} textAlign='center'>{dataEvent?.event?.name}</Title>

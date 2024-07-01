@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { Banner } from "../layout/Banner.style";
 import { Title } from '../layout/Title.style'
 import Table from "../layout/Table";
+import Loading from "../layout/Loading";
 
 const Text = styled.p`
     font-family: inherit;
@@ -42,32 +43,42 @@ export default function EventResume(){
     const [dataOrder, setDataOrder] = useState({})
     const [dataEvent, setDataEvent] = useState({})
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
     const { EventId, OrderId } = useParams()
 
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/orders/' + OrderId).then((response) => {
-            if(!response.data.error){
-                setDataOrder(response.data)
-
-                const ProductsId = response.data.items.map((item) => item.ProductId)
-                const ProductsQuantity = response.data.items.map((item) => item.quantity)
-
-                axios.post(process.env.REACT_APP_BASE_URL + '/products', { ids: ProductsId }).then((response) => {
-                    let array = response.data
-                    let mergedArray = array.map((item, index) => [item, ProductsQuantity[index]])
-                    setProducts(mergedArray)
-                })
-            }
-        })
-
-        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + EventId).then((response) => {
-            setDataEvent(response.data)
-        })
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/orders/' + OrderId).then((response) => {
+                if(!response.data.error){
+                    setDataOrder(response.data)
+    
+                    const ProductsId = response.data.items.map((item) => item.ProductId)
+                    const ProductsQuantity = response.data.items.map((item) => item.quantity)
+    
+                    axios.post(process.env.REACT_APP_BASE_URL + '/products', { ids: ProductsId }).then((response) => {
+                        let array = response.data
+                        let mergedArray = array.map((item, index) => [item, ProductsQuantity[index]])
+                        setProducts(mergedArray)
+                    })
+                }
+            })
+    
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + EventId).then((response) => {
+                setDataEvent(response.data)
+            })
+        }
+        finally{
+            setLoading(false)
+        }
     }, [])
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Banner src={dataEvent?.event?.image} alt={'Banner ' + dataEvent?.event?.name}/>
             <Container>
                 <Title

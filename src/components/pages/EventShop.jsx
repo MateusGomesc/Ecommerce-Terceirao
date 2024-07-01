@@ -11,6 +11,7 @@ import Table from "../layout/Table";
 import Count from "../layout/Count";
 import Checkbox from "../forms/Checkbox";
 import ButtonNoBackground from "../layout/ButtonNoBackground";
+import Loading from "../layout/Loading";
 
 const Container = styled.div`
     width: 100%;
@@ -77,6 +78,7 @@ export default function EventShop(){
     const [checkbox, setCheckbox] = useState('unchecked')
     const [data, setData] = useState({})
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
     const { id } = useParams()
 
     // Modelo do objeto do carrinho
@@ -93,28 +95,35 @@ export default function EventShop(){
     useEffect(() => {
         const acessToken = sessionStorage.getItem('acessToken')
 
-        if(acessToken){
-            const decodedToken = jwtDecode(acessToken)
-            cartModel.user = decodedToken.id
-            cartModel.event = parseInt(id)
+        setLoading(true)
+        try{
+            if(acessToken){
+                const decodedToken = jwtDecode(acessToken)
+                cartModel.user = decodedToken.id
+                cartModel.event = parseInt(id)
+            }
+    
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+                setData(response.data)
+    
+                if (response.data && response.data.products) {
+                    const newProducts = response.data.products.map((product) => [
+                        product.name,
+                        formatPrice(product.price),
+                        (<Count key={product.name} product={product.name} productPrice={product.price} productId={product.id} />)
+                    ]);
+    
+                    setProducts(newProducts);
+                }
+            })
+    
+            // Cria carrinho ao iniciar pagina
+            localStorage.setItem('cart', JSON.stringify(cartModel))
+        }
+        finally{
+            setLoading(false)
         }
 
-        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-            setData(response.data)
-
-            if (response.data && response.data.products) {
-                const newProducts = response.data.products.map((product) => [
-                    product.name,
-                    formatPrice(product.price),
-                    (<Count key={product.name} product={product.name} productPrice={product.price} productId={product.id} />)
-                ]);
-
-                setProducts(newProducts);
-            }
-        })
-
-        // Cria carrinho ao iniciar pagina
-        localStorage.setItem('cart', JSON.stringify(cartModel))
     }, [id])
 
     const navigate = useNavigate()
@@ -160,17 +169,26 @@ export default function EventShop(){
         else{
             cartData.products = JSON.stringify(cartData.products)
 
-            axios.post(process.env.REACT_APP_BASE_URL + '/orders/cash', cartData).then((response) => {
-                if(!response.data.error){
-                    localStorage.removeItem('cart')
-                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
-                }
-            })
+            setLoading(true)
+            try{
+                axios.post(process.env.REACT_APP_BASE_URL + '/orders/cash', cartData).then((response) => {
+                    if(!response.data.error){
+                        localStorage.removeItem('cart')
+                        navigate('/resumo/' + cartData.event + '/' + response.data.id)
+                    }
+                })
+            }
+            finally{
+                setLoading(false)
+            }
         }
     }
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Banner 
                 src={data?.event?.image}
                 alt={'Banner ' + data?.event?.name}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ButtonNoBackground from "../layout/ButtonNoBackground";
 import { Title } from "../layout/Title.style";
 import EventCard from "../layout/EventCard";
+import Loading from "../layout/Loading";
 
 const ButtonContainer = styled.div`
     display: flex;
@@ -32,6 +33,7 @@ const Container = styled.div`
 
 export default function AdminEvents(){
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const getDate = (date) => {
         const month = {
@@ -54,14 +56,22 @@ export default function AdminEvents(){
     }
     
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/events').then((response) => {
-            setData(response.data)
-        })
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/events').then((response) => {
+                setData(response.data)
+            })
+        }
+        finally{
+            setLoading(false)
+        }
     }, [])
     
     return(
-        // excluir e imagem
         <Container>
+            {
+                loading && <Loading/>
+            }
             <Title
                 fontWeight='bold'
                 fontSize={24}

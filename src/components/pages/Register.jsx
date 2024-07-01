@@ -9,6 +9,7 @@ import Input from "../forms/Input";
 import ButtonBackground from "../layout/ButtonBackground";
 import { Title } from "../layout/Title.style";
 import { Alert } from "../layout/Alert.style";
+import Loading from "../layout/Loading";
 
 const FormStyled = styled(Form)`
     width: 100%;
@@ -25,6 +26,7 @@ export default function Register(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     // Formik configure
 
@@ -49,20 +51,30 @@ export default function Register(){
             password: values.password
         }
 
-        axios.post(process.env.REACT_APP_BASE_URL + "/auth", data).then((response) => {
-            if(response.data.error){
-                setAlert(true)
-                setAlertMessage(response.data.error)
-            }
-            else{
-                navigate('/login', { state: { message: response.data } })
-            }
-        })
+        setLoading(true)
+        try{
+            axios.post(process.env.REACT_APP_BASE_URL + "/auth", data).then((response) => {
+                if(response.data.error){
+                    setAlert(true)
+                    setAlertMessage(response.data.error)
+                }
+                else{
+                    navigate('/login', { state: { message: response.data } })
+                }
+            })
+        }
+        finally{
+            setLoading(false)
+        }
+
         isSubmitting(false)
     }
 
     return(
         <>
+            {
+                loading && <Loading/>
+            }
             <Title
                 fontSize={24}
                 fontWeight='bold'
