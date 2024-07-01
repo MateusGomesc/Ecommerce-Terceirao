@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom"
 import { Title } from "../layout/Title.style"
 import EventCard from "../layout/EventCard"
 import { Alert } from "../layout/Alert.style"
+import Loading from "../layout/Loading"
 
 const Text = styled.p`
     font-family: inherit;
@@ -45,17 +46,24 @@ export default function Home(){
     const [alert, setAlert] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [alertType, setAlertType] = useState("error")
+    const [loading, setLoading] = useState(false)
 
     const location = useLocation()
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
-            setData(response.data)
-        })
+        setLoading(true)
+        try{
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
+                setData(response.data)
+            })
 
-        if(location.state){
-            setAlert(true)
-            setAlertMessage(location.state.message)
+            if(location.state){
+                setAlert(true)
+                setAlertMessage(location.state.message)
+            }
+        }
+        finally{
+            setLoading(false)
         }
     }, [])
 
@@ -81,6 +89,9 @@ export default function Home(){
 
     return(
         <Container>
+            {
+                loading && <Loading/>
+            }
             <Text>Seja bem-vindo (a) ao sistema de vendas do <Regular>TERCEIRÃO INFORMÁTICA 2024</Regular> 👋</Text>
             <Title fontWeight='bold' fontSize={24} textAlign='center'>Escolha o evento:</Title>
             {
