@@ -104,6 +104,7 @@ export default function AdminRegisterEvent(){
     }
 
     const handleUpdate = (values, { isSubmitting, resetForm }) => {
+        console.log(values.products)
         const formData = new FormData()
         formData.append('name', values.name)
         formData.append('date', values.date)
