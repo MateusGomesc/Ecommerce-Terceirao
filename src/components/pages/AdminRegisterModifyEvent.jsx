@@ -132,29 +132,27 @@ export default function AdminRegisterEvent(){
         }
         finally{
             setLoading(false)
+            isSubmitting(false)
         }
     }
 
     useEffect(() => {
         if(type === 'editar'){
             setLoading(true)
-            try{
-                axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-                    let data = response.data
-                    setData({
-                        id: data.event.id,
-                        name: data.event.name,
-                        location: data.event.location,
-                        image: data.event.image,
-                        date: data.event.date,
-                        status: data.event.status === 0 ? 'Fechado' : 'Aberto',
-                        products: data.products
-                    })
+            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+                let data = response.data
+                setData({
+                    id: data.event.id,
+                    name: data.event.name,
+                    location: data.event.location,
+                    image: data.event.image,
+                    date: data.event.date,
+                    status: data.event.status === 0 ? 'Fechado' : 'Aberto',
+                    products: data.products
                 })
-            }
-            finally{
+            }).finally(() => {
                 setLoading(false)
-            }
+            })
         }
     }, [])
 
@@ -211,7 +209,16 @@ export default function AdminRegisterEvent(){
                         <ButtonRounded
                             type='minus'
                             text='Remover Produto'
-                            handleOnClick={() => setFieldValue('products', values.products.slice(0, -1))}
+                            handleOnClick={() => {
+                                if(type === 'editar'){
+                                    setAlert(true)
+                                    setAlertMessage('Não é possível diminuir produtos na edição')
+                                    setAlertType('error')
+                                }
+                                else{
+                                    setFieldValue('products', values.products.slice(0, -1))
+                                }
+                            }}
                         />
                         <FieldArray name="products">
                             {() => (
