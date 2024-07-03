@@ -57,14 +57,11 @@ export default function AdminEvents(){
     
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/events').then((response) => {
-                setData(response.data)
-            })
-        }
-        finally{
+        axios.get(process.env.REACT_APP_BASE_URL + '/events').then((response) => {
+            setData(response.data)
+        }).finally(() => {
             setLoading(false)
-        }
+        })
     }, [])
     
     return(

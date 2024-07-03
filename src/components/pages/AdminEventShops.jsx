@@ -34,31 +34,28 @@ export default function AdminEventShops(){
 
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-                setDataEvent(response.data)
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+            setDataEvent(response.data)
+
+            axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
+                const data = response.data
+                
+                if(data.error){
+                    setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
+                }
+                else{
+                    const tableData = data.map((order) => [
+                        (<Checkbox/>),
+                        order.username,
+                        (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
+                    ])
     
-                axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
-                    const data = response.data
-                    
-                    if(data.error){
-                        setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
-                    }
-                    else{
-                        const tableData = data.map((order) => [
-                            (<Checkbox/>),
-                            order.username,
-                            (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
-                        ])
-        
-                        setTableData(tableData)
-                    }
-                })
+                    setTableData(tableData)
+                }
             })
-        }
-        finally{
+        }).finally(() => {
             setLoading(false)
-        }
+        })
     }, [])
 
     return(

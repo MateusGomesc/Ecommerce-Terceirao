@@ -51,23 +51,20 @@ export default function AdminSet(){
         const acessToken = sessionStorage.getItem('acessToken')
         
         setLoading(true)
-        try{
-            axios.post(process.env.REACT_APP_BASE_URL + '/auth/setAdmin', { ...values, acessToken}).then((response) => {
-                setAlert(true)
-                
-                if(response.data.error){
-                    setAlertMessage(response.data.error)
-                    setAlertType('error')
-                }
-                else{
-                    setAlertMessage(response.data)
-                    setAlertType('success')
-                }
-            })
-        }
-        finally{
+        axios.post(process.env.REACT_APP_BASE_URL + '/auth/setAdmin', { ...values, acessToken}).then((response) => {
+            setAlert(true)
+            
+            if(response.data.error){
+                setAlertMessage(response.data.error)
+                setAlertType('error')
+            }
+            else{
+                setAlertMessage(response.data)
+                setAlertType('success')
+            }
+        }).finally(() => {
             setLoading(false)
-        }
+        })
 
         setSubmitting(false)
     }

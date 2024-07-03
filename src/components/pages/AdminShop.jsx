@@ -36,31 +36,28 @@ export default function AdminShop(){
 
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + eventId).then((response) => {
-                const data = response.data
-    
-                const userOrder = data.filter((order) => order.userId === parseInt(userId))
-                const productsId = userOrder[0].items.map((item) => item.ProductId)
-    
-                axios.post(process.env.REACT_APP_BASE_URL + '/products/', { ids: productsId }).then((response) => {
-                    let tableData = []
-                    tableData = response.data.map((product, index) => [product, userOrder[0].items[index].quantity])
-    
-                    setOrder({
-                        username: userOrder[0].username,
-                        price: userOrder[0].price,
-                        proof: userOrder[0].proof,
-                        tableData: tableData,
-                        payMethod: userOrder[0].payMethod
-                    })
+        axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + eventId).then((response) => {
+            const data = response.data
+
+            const userOrder = data.filter((order) => order.userId === parseInt(userId))
+            const productsId = userOrder[0].items.map((item) => item.ProductId)
+
+            axios.post(process.env.REACT_APP_BASE_URL + '/products/', { ids: productsId }).then((response) => {
+                let tableData = []
+                tableData = response.data.map((product, index) => [product, userOrder[0].items[index].quantity])
+
+                setOrder({
+                    username: userOrder[0].username,
+                    price: userOrder[0].price,
+                    proof: userOrder[0].proof,
+                    tableData: tableData,
+                    payMethod: userOrder[0].payMethod
                 })
-                
             })
-        }
-        finally{
+            
+        }).finally(()=>{
             setLoading(false)
-        }
+        })
     }, [])
 
     return(

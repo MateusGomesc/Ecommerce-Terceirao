@@ -52,18 +52,15 @@ export default function Home(){
 
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
-                setData(response.data)
-            })
-
-            if(location.state){
-                setAlert(true)
-                setAlertMessage(location.state.message)
-            }
-        }
-        finally{
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/open').then((response) => {
+            setData(response.data)
+        }).finally(() => {
             setLoading(false)
+        })
+
+        if(location.state){
+            setAlert(true)
+            setAlertMessage(location.state.message)
         }
     }, [])
 

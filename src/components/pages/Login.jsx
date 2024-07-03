@@ -97,21 +97,18 @@ export default function Login(){
 
     const handleLogin = (values, { setSubmitting }) => {
         setLoading(true)
-        try{
-            axios.post(process.env.REACT_APP_BASE_URL + "/auth/login", values).then((response) => {
-                if(response.data.error){
-                    setAlert(true)
-                    setAlertMessage(response.data.error)
-                }
-                else{
-                    sessionStorage.setItem('acessToken', response.data)
-                    navigate('/')
-                }
-            })
-        }
-        finally{
+        axios.post(process.env.REACT_APP_BASE_URL + "/auth/login", values).then((response) => {
+            if(response.data.error){
+                setAlert(true)
+                setAlertMessage(response.data.error)
+            }
+            else{
+                sessionStorage.setItem('acessToken', response.data)
+                navigate('/')
+            }
+        }).finally(() => {
             setLoading(false)
-        }
+        })
 
         setSubmitting(false)
     }

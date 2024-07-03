@@ -79,26 +79,23 @@ export default function AdminRegisterEvent(){
         formData.append('location', values.location)
 
         setLoading(true)
-        try{
-            axios.post(process.env.REACT_APP_BASE_URL + '/events/register', formData).then((response) => {
-                setAlert(true)
-                setAlertMessage(response.data)
-                
-                if(response.status === 200){
-                    setAlertType('success')
-                    resetForm()
-                    window.scrollBy({
-                        top: -window.scrollY,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
-                      
-                }
-            })
-        }
-        finally{
+        axios.post(process.env.REACT_APP_BASE_URL + '/events/register', formData).then((response) => {
+            setAlert(true)
+            setAlertMessage(response.data)
+            
+            if(response.status === 200){
+                setAlertType('success')
+                resetForm()
+                window.scrollBy({
+                    top: -window.scrollY,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+                    
+            }
+        }).finally(() => {
             setLoading(false)
-        }
+        })
 
         isSubmitting(false)
     }
@@ -114,26 +111,22 @@ export default function AdminRegisterEvent(){
         formData.append('location', values.location)
 
         setLoading(true)
-        try{
-            axios.patch(process.env.REACT_APP_BASE_URL + '/events/modify/' + id, formData).then((response) => {
-                setAlert(true)
-                setAlertMessage(response.data)
-                
-                if(response.status === 200){
-                    setAlertType('success')
-                    resetForm()
-                    window.scrollBy({
-                        top: -window.scrollY,
-                        left: 0,
-                        behavior: 'smooth'
-                    });                  
-                }
-            })
-        }
-        finally{
+        axios.patch(process.env.REACT_APP_BASE_URL + '/events/modify/' + id, formData).then((response) => {
+            setAlert(true)
+            setAlertMessage(response.data)
+            
+            if(response.status === 200){
+                setAlertType('success')
+                resetForm()
+                window.scrollBy({
+                    top: -window.scrollY,
+                    left: 0,
+                    behavior: 'smooth'
+                });                  
+            }
+        }).finally(() => {
             setLoading(false)
-            isSubmitting(false)
-        }
+        })
     }
 
     useEffect(() => {
@@ -214,6 +207,11 @@ export default function AdminRegisterEvent(){
                                     setAlert(true)
                                     setAlertMessage('Não é possível diminuir produtos na edição')
                                     setAlertType('error')
+                                    window.scrollBy({
+                                        top: -window.scrollY,
+                                        left: 0,
+                                        behavior: 'smooth'
+                                    });
                                 }
                                 else{
                                     setFieldValue('products', values.products.slice(0, -1))

@@ -43,14 +43,11 @@ export default function UserEvents(){
         const decodedToken = jwtDecode(acessToken)
     
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/orders/user/' + decodedToken.id).then((response) => {
-                setData(response.data)
-            })
-        }
-        finally{
+        axios.get(process.env.REACT_APP_BASE_URL + '/orders/user/' + decodedToken.id).then((response) => {
+            setData(response.data)
+        }).finally(() => {
             setLoading(false)
-        }
+        })
 
     }, [])
 

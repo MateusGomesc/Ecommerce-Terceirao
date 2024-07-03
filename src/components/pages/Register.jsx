@@ -52,20 +52,17 @@ export default function Register(){
         }
 
         setLoading(true)
-        try{
-            axios.post(process.env.REACT_APP_BASE_URL + "/auth", data).then((response) => {
-                if(response.data.error){
-                    setAlert(true)
-                    setAlertMessage(response.data.error)
-                }
-                else{
-                    navigate('/login', { state: { message: response.data } })
-                }
-            })
-        }
-        finally{
+        axios.post(process.env.REACT_APP_BASE_URL + "/auth", data).then((response) => {
+            if(response.data.error){
+                setAlert(true)
+                setAlertMessage(response.data.error)
+            }
+            else{
+                navigate('/login', { state: { message: response.data } })
+            }
+        }).finally(() => {
             setLoading(false)
-        }
+        })
 
         isSubmitting(false)
     }

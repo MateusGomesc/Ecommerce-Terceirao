@@ -49,29 +49,26 @@ export default function EventResume(){
 
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/orders/' + OrderId).then((response) => {
-                if(!response.data.error){
-                    setDataOrder(response.data)
-    
-                    const ProductsId = response.data.items.map((item) => item.ProductId)
-                    const ProductsQuantity = response.data.items.map((item) => item.quantity)
-    
-                    axios.post(process.env.REACT_APP_BASE_URL + '/products', { ids: ProductsId }).then((response) => {
-                        let array = response.data
-                        let mergedArray = array.map((item, index) => [item, ProductsQuantity[index]])
-                        setProducts(mergedArray)
-                    })
-                }
-            })
-    
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + EventId).then((response) => {
-                setDataEvent(response.data)
-            })
-        }
-        finally{
+        axios.get(process.env.REACT_APP_BASE_URL + '/orders/' + OrderId).then((response) => {
+            if(!response.data.error){
+                setDataOrder(response.data)
+
+                const ProductsId = response.data.items.map((item) => item.ProductId)
+                const ProductsQuantity = response.data.items.map((item) => item.quantity)
+
+                axios.post(process.env.REACT_APP_BASE_URL + '/products', { ids: ProductsId }).then((response) => {
+                    let array = response.data
+                    let mergedArray = array.map((item, index) => [item, ProductsQuantity[index]])
+                    setProducts(mergedArray)
+                })
+            }
+        })
+
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + EventId).then((response) => {
+            setDataEvent(response.data)
+        }).finally(() => {
             setLoading(false)
-        }
+        })
     }, [])
 
     return(

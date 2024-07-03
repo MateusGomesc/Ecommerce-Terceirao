@@ -96,33 +96,30 @@ export default function EventShop(){
         const acessToken = sessionStorage.getItem('acessToken')
 
         setLoading(true)
-        try{
-            if(acessToken){
-                const decodedToken = jwtDecode(acessToken)
-                cartModel.user = decodedToken.id
-                cartModel.event = parseInt(id)
+        if(acessToken){
+            const decodedToken = jwtDecode(acessToken)
+            cartModel.user = decodedToken.id
+            cartModel.event = parseInt(id)
+        }
+
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
+            setData(response.data)
+
+            if (response.data && response.data.products) {
+                const newProducts = response.data.products.map((product) => [
+                    product.name,
+                    formatPrice(product.price),
+                    (<Count key={product.name} product={product.name} productPrice={product.price} productId={product.id} />)
+                ]);
+
+                setProducts(newProducts);
             }
-    
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + id).then((response) => {
-                setData(response.data)
-    
-                if (response.data && response.data.products) {
-                    const newProducts = response.data.products.map((product) => [
-                        product.name,
-                        formatPrice(product.price),
-                        (<Count key={product.name} product={product.name} productPrice={product.price} productId={product.id} />)
-                    ]);
-    
-                    setProducts(newProducts);
-                }
-            })
-    
-            // Cria carrinho ao iniciar pagina
-            localStorage.setItem('cart', JSON.stringify(cartModel))
-        }
-        finally{
+        }).finally(() => {
             setLoading(false)
-        }
+        })
+
+        // Cria carrinho ao iniciar pagina
+        localStorage.setItem('cart', JSON.stringify(cartModel))
 
     }, [id])
 
@@ -170,17 +167,14 @@ export default function EventShop(){
             cartData.products = JSON.stringify(cartData.products)
 
             setLoading(true)
-            try{
-                axios.post(process.env.REACT_APP_BASE_URL + '/orders/cash', cartData).then((response) => {
-                    if(!response.data.error){
-                        localStorage.removeItem('cart')
-                        navigate('/resumo/' + cartData.event + '/' + response.data.id)
-                    }
-                })
-            }
-            finally{
+            axios.post(process.env.REACT_APP_BASE_URL + '/orders/cash', cartData).then((response) => {
+                if(!response.data.error){
+                    localStorage.removeItem('cart')
+                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
+                }
+            }).finally(() => {
                 setLoading(false)
-            }
+            })
         }
     }
 

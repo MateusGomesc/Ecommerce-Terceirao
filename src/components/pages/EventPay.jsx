@@ -71,14 +71,11 @@ export default function EventPay(){
 
     useEffect(() => {
         setLoading(true)
-        try{
-            axios.get(process.env.REACT_APP_BASE_URL + '/events/' + cartData.event).then((response) => {
-                setData(response.data)
-            })
-        }
-        finally{
+        axios.get(process.env.REACT_APP_BASE_URL + '/events/' + cartData.event).then((response) => {
+            setData(response.data)
+        }).finally(() => {
             setLoading(false)
-        }
+        })
     }, [])
 
     const handleCopy = () => {
@@ -102,17 +99,14 @@ export default function EventPay(){
             formData.append('proof', event.target.proof.files[0])
 
             setLoading(true)
-            try{
-                axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
-                    if(!response.data.error){
-                        localStorage.removeItem('cart')
-                        navigate('/resumo/' + cartData.event + '/' + response.data.id)
-                    }
-                })
-            }
-            finally{
+            axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
+                if(!response.data.error){
+                    localStorage.removeItem('cart')
+                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
+                }
+            }).finally(() => {
                 setLoading(false)
-            }
+            })
         }
     }
 
