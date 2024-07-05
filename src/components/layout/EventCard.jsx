@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { jwtDecode } from "jwt-decode"
 
@@ -49,7 +49,7 @@ const Text = styled.h2`
 
 const LinkStyle = {
     textDecoration: "none",
-    color: "inherit"
+    color: "black"
 }
 
 const SubTitle = styled.p`
@@ -67,6 +67,11 @@ const ButtonContainer = styled.div`
     width: 100%;
     justify-content: start;
 `
+
+const LinkContainer = styled(Link)`
+    text-decoration: none;
+`
+
 
 
 export default function EventCard({ EventId, EventName, EventDate, EventImage, EventLocation, IsAdmin, IsOpen, IsShop=true, OrderId }){
@@ -130,52 +135,54 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
     }
 
     return(
-        <CardContainer>
-            <Image src={EventImage} alt={`Banner ${EventName}`} />
-            {
-                alert && <Alert type={alertType}>{alertMessage}</Alert>
-            }
-            <CardBody>
+        <LinkContainer to={ IsAdmin ? '/compras/' + EventId : (shop ? '/comprar/' + EventId : '/resumo/' + EventId + '/' + OrderId)}>
+            <CardContainer>
+                <Image src={EventImage} alt={`Banner ${EventName}`} />
                 {
-                    IsAdmin && (
-                        <SubTitle color={Open ? 'var(--success)' : 'var(--error)'}>Evento {Open ? 'aberto' : 'fechado'}</SubTitle>
-                    )
+                    alert && <Alert type={alertType}>{alertMessage}</Alert>
                 }
-                <Info>
-                    <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
-                    <SubTitle>{EventLocation}</SubTitle>
-                </Info>
-                <Link 
-                    to={ IsAdmin ? '/compras/' + EventId : (shop ? '/comprar/' + EventId : '/resumo/' + EventId + '/' + OrderId)}
-                    style={LinkStyle}
-                    onClick={!IsAdmin && IsShop && verifyShop}
-                >
-                    <Text>
-                        {EventName}
-                    </Text>
-                </Link>
-                {
-                    IsAdmin && (
-                        <ButtonContainer>
-                            <ButtonNoBackground 
-                                text={Open ? 'Fechar' : 'Abrir'} 
-                                handleClick={changeStatus}
-                            />
-                            <ButtonNoBackground 
-                                text='Editar'
-                                path={'/formulario/editar/' + EventId}
-                            />
-                            <ButtonNoBackground 
-                                text='Excluir'
-                                handleClick={toggleModal}
-                            />
-                        </ButtonContainer>
-                    )
-                }
-                <Modal show={showModal} onClose={toggleModal} title='Deletar Evento' handleClick={deleteEvent}>
-                    Você realmente quer excluir esse evento?
-                </Modal>
-            </CardBody>
-        </CardContainer>
+                <CardBody>
+                    {
+                        IsAdmin && (
+                            <SubTitle color={Open ? 'var(--success)' : 'var(--error)'}>Evento {Open ? 'aberto' : 'fechado'}</SubTitle>
+                        )
+                    }
+                    <Info>
+                        <Title fontSize={14} fontWeight='bold'>{EventDate}</Title>
+                        <SubTitle color='black'>{EventLocation}</SubTitle>
+                    </Info>
+                    <Link 
+                        to={ IsAdmin ? '/compras/' + EventId : (shop ? '/comprar/' + EventId : '/resumo/' + EventId + '/' + OrderId)}
+                        style={LinkStyle}
+                        onClick={!IsAdmin && IsShop && verifyShop}
+                    >
+                        <Text>
+                            {EventName}
+                        </Text>
+                    </Link>
+                    {
+                        IsAdmin && (
+                            <ButtonContainer>
+                                <ButtonNoBackground 
+                                    text={Open ? 'Fechar' : 'Abrir'} 
+                                    handleClick={changeStatus}
+                                />
+                                <ButtonNoBackground 
+                                    text='Editar'
+                                    path={'/formulario/editar/' + EventId}
+                                />
+                                <ButtonNoBackground 
+                                    text='Excluir'
+                                    handleClick={toggleModal}
+                                />
+                            </ButtonContainer>
+                        )
+                    }
+                    <Modal show={showModal} onClose={toggleModal} title='Deletar Evento' handleClick={deleteEvent}>
+                        Você realmente quer excluir esse evento?
+                    </Modal>
+                </CardBody>
+            </CardContainer>
+        </LinkContainer>
     )
 }
