@@ -34,7 +34,7 @@ export default function AdminEventShops(){
 
     const updateStatusOrder = (id) => {
         axios.put(process.env.REACT_APP_BASE_URL + '/orders/check/' + id)
-        window.location.reload()
+        document.getElementById('checkbox').checked = !document.getElementById('checkbox').checked
     }
 
     useEffect(() => {
