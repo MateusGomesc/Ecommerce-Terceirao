@@ -33,7 +33,10 @@ export default function AdminEventShops(){
     const [loading, setLoading] = useState(false)
 
     const updateStatusOrder = (id) => {
-        axios.put(process.env.REACT_APP_BASE_URL + '/orders/check/' + id)
+        axios.put(process.env.REACT_APP_BASE_URL + '/orders/check/' + id).then(() => {
+            let checkbox = document.getElementById(id)
+            checkbox.checked = !checkbox
+        })
     }
 
     useEffect(() => {
@@ -52,6 +55,7 @@ export default function AdminEventShops(){
                         (<Checkbox 
                             handleOnClick={() => updateStatusOrder(order.id)}
                             checked={order.received}
+                            id={order.id}
                         />),
                         order.username,
                         (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)
