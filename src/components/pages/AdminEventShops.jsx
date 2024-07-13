@@ -50,7 +50,7 @@ export default function AdminEventShops(){
                 else{
                     const tableData = data.map((order) => [
                         (<Checkbox 
-                            handleOnClick={updateStatusOrder(order.id)}
+                            handleOnClick={() => updateStatusOrder(order.id)}
                             checked={order.received}
                         />),
                         order.username,
