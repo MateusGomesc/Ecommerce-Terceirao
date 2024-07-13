@@ -29,12 +29,26 @@ const Container = styled.div`
 export default function AdminEventShops(){
     const { id } = useParams()
     const [dataEvent, setDataEvent] = useState({})
+    const [data, setData] = useState({})
     const [tableData, setTableData] = useState([])
     const [loading, setLoading] = useState(false)
 
     const updateStatusOrder = (id) => {
-        axios.put(process.env.REACT_APP_BASE_URL + '/orders/check/' + id)
-        document.getElementById(id).checked = !document.getElementById(id).checked
+        axios.put(process.env.REACT_APP_BASE_URL + '/orders/check/' + id).then(() => {
+            setData((prevData) => {
+                prevData.map((order) => {
+                    if(order.id == id){
+                        return {
+                            ...order,
+                            received: !order.received
+                        }
+                    }
+                    else{
+                        return order
+                    }
+                })
+            })
+        })
     }
 
     useEffect(() => {
@@ -43,7 +57,7 @@ export default function AdminEventShops(){
             setDataEvent(response.data)
 
             axios.get(process.env.REACT_APP_BASE_URL + '/orders/event/' + id).then((response) => {
-                const data = response.data
+                setData(response.data)
                 
                 if(data.error){
                     setTableData([[(<Checkbox/>) ,'Ainda não há compras', '*']])
@@ -51,9 +65,8 @@ export default function AdminEventShops(){
                 else{
                     const tableData = data.map((order) => [
                         (<Checkbox 
-                            handleOnClick={() => updateStatusOrder(toString(order.id))}
+                            handleOnClick={() => updateStatusOrder(order.id)}
                             checked={order.received}
-                            id={toString(order.id)}
                         />),
                         order.username,
                         (<LinkStyled key={order.userId} to={'/detalhes/' + id + '/' + order.userId}>Detalhes</LinkStyled>)

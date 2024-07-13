@@ -23,8 +23,8 @@ const Check = styled.input`
     }
 `
 
-export default function Checkbox({ handleOnClick, checked, id }){
+export default function Checkbox({ handleOnClick, checked }){
     return(
-        <Check type="checkbox" required onClick={handleOnClick} checked={checked} id={id}></Check>
+        <Check type="checkbox" required onClick={handleOnClick} checked={checked}></Check>
     )
 }
