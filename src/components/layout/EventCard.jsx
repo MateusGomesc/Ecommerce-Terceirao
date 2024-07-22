@@ -82,7 +82,9 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
     const [alertType, setAlertType] = useState("error")
     const [showModal, setShowModal] = useState(false)
 
-    const changeStatus = () => {
+    const changeStatus = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
         const data = {
             status: Open ? 0 : 1
         }
@@ -98,7 +100,9 @@ export default function EventCard({ EventId, EventName, EventDate, EventImage, E
         })
     }
 
-    const toggleModal = () => {
+    const toggleModal = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
         setShowModal(!showModal)
     }
 

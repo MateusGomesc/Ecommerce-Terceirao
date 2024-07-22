@@ -62,6 +62,17 @@ const Container = styled.div`
     text-align: center;
 `
 
+const Flex = styled.div`
+    @media(min-width: 720px){
+        & {
+            margin-top: 32px;
+            display: flex;
+            gap: 48px;
+            max-width: 100%;
+        }
+    }
+`
+
 export default function EventPay(){
     const [copy, setCopy] = useState(false)
     const [data, setData] = useState({})
@@ -111,7 +122,7 @@ export default function EventPay(){
     }
 
     return(
-        <>
+        <Flex>
             {
                 loading && <Loading/>
             }
@@ -146,6 +157,6 @@ export default function EventPay(){
                     </ButtonContainer>
                 </form>
             </Container>
-        </>
+        </Flex>
     )
 }

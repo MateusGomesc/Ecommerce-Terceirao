@@ -73,6 +73,17 @@ const SelectContainer = styled.select`
     }
 `
 
+const Flex = styled.div`
+    @media(min-width: 720px){
+        & {
+            margin-top: 32px;
+            display: flex;
+            gap: 48px;
+            max-width: 100%;
+        }
+    }
+`
+
 
 export default function EventShop(){
     const [checkbox, setCheckbox] = useState('unchecked')
@@ -179,7 +190,7 @@ export default function EventShop(){
     }
 
     return(
-        <>
+        <Flex>
             {
                 loading && <Loading/>
             }
@@ -223,6 +234,6 @@ export default function EventShop(){
                     </Center>
                 </form>
             </Container>
-        </>
+        </Flex>
     )
 }

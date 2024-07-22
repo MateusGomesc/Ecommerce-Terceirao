@@ -39,6 +39,17 @@ const Container = styled.div`
     max-width: 620px;
 `
 
+const Flex = styled.div`
+    @media(min-width: 720px){
+        & {
+            margin-top: 32px;
+            display: flex;
+            gap: 48px;
+            max-width: 100%;
+        }
+    }
+`
+
 export default function EventResume(){
     const [dataOrder, setDataOrder] = useState({})
     const [dataEvent, setDataEvent] = useState({})
@@ -72,7 +83,7 @@ export default function EventResume(){
     }, [])
 
     return(
-        <>
+        <Flex>
             {
                 loading && <Loading/>
             }
@@ -97,6 +108,6 @@ export default function EventResume(){
                     dataOrder?.order?.payMethod === 'Dinheiro' && <Text>Realize o pagamento em dinheiro na entrega do produto</Text>
                 }
             </Container>
-        </>
+        </Flex>
     )
 }

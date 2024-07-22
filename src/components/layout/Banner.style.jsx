@@ -8,10 +8,17 @@ export const Banner = styled.img`
     border-radius: 0 0 8px 8px;
     margin-top: -40px;
     margin-bottom: 13px;
+    margin-left: -32px;
 
-    @media(min-width: 1024px){
+    @media(min-width: 720px){
         & {
-            display: none;
+            width: 40%;
+            height: 400px;
+            border-radius: 28px 56px;
+            margin-top: 16px;
+            margin-left: 0;
+            box-shadow: -2px -2px 16px var(--shadow),
+                4px 4px 16px var(--shadow);
         }
     }
 `

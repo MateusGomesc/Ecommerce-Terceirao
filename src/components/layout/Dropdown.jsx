@@ -112,7 +112,7 @@ export default function Dropdown() {
             ))
         }
         {
-            options.length !== 0 && options.length !== 1 && <DropdownItem onClick={exit}><a>Sair</a></DropdownItem>
+            options.length !== 0 && options[0] !== 'Login' && <DropdownItem onClick={exit}><a>Sair</a></DropdownItem>
         }
       </DropdownMenu>
     </DropdownContainer>
