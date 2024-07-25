@@ -98,27 +98,24 @@ export default function EventPay(){
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        
-        if(event.target.proof.files[0]){
-            const formData = new FormData()
-            formData.append('user', cartData.user)
-            formData.append('event', cartData.event)
-            formData.append('price', cartData.price)
-            formData.append('payMethod', cartData.payMethod)
-            formData.append('terms', cartData.terms)
-            formData.append('products', JSON.stringify(cartData.products))
-            formData.append('proof', event.target.proof.files[0])
+        const formData = new FormData()
+        formData.append('user', cartData.user)
+        formData.append('event', cartData.event)
+        formData.append('price', cartData.price)
+        formData.append('payMethod', cartData.payMethod)
+        formData.append('terms', cartData.terms)
+        formData.append('products', JSON.stringify(cartData.products))
+        console.log(formData)
 
-            setLoading(true)
-            axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
-                if(!response.data.error){
-                    localStorage.removeItem('cart')
-                    navigate('/resumo/' + cartData.event + '/' + response.data.id)
-                }
-            }).finally(() => {
-                setLoading(false)
-            })
-        }
+        setLoading(true)
+        axios.post(process.env.REACT_APP_BASE_URL + '/orders/pix', formData).then((response) => {
+            if(!response.data.error){
+                localStorage.removeItem('cart')
+                navigate('/resumo/' + cartData.event + '/' + response.data.id)
+            }
+        }).finally(() => {
+            setLoading(false)
+        })
     }
 
     return(
@@ -144,11 +141,8 @@ export default function EventPay(){
                 >
                     {copy ? 'Texto copiado!' : 'Clique para copiar o texto!'}
                 </SubText>
+                <a href="https://wa.me/5534999232850?text=Nome:%20%0ATurma:%20%0AEnvie%20juntamente%20com%20o%20comprovante" target="_blanck">Clique aqui para enviar o comprovante no WhatsApp</a>
                 <form onSubmit={handleSubmit}>
-                    <InputFile
-                        text='Anexar comprovante'
-                        name='proof'
-                    />
                     <ButtonContainer>
                         <ButtonNoBackground 
                             text='Avançar'
